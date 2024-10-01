@@ -7,6 +7,8 @@ import ProgressBar from '@/components/ProgressBar/ProgressBar'
 import DictionaryProvider from '@/locales/DictionaryProvider'
 import { getDictionary } from '@/locales/dictionary'
 import getTheme from '@/themes/theme'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 // You change this configuration value to false so that the Font Awesome core SVG library
 // will not try and insert <style> elements into the <head> of the page.
@@ -28,6 +30,19 @@ export default async function RootLayout({
         <DictionaryProvider dictionary={dictionary}>
           {children}
         </DictionaryProvider>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+          />
+        <ToastContainer />
       </body>
     </html>
   )
