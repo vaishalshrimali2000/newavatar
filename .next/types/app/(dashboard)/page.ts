@@ -1,4 +1,4 @@
-// File: C:\Users\ER220\Documents\nextjs-dashboard-main (3)\nextjs-dashboard-main (2)\nextjs-dashboard-main\nextjs-dashboard-main\src\app\(dashboard)\page.tsx
+// File: D:\newavatar_new\src\app\(dashboard)\page.tsx
 import * as entry from '../../../../src/app/(dashboard)/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
