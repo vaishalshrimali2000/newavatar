@@ -1,5 +1,10 @@
+<<<<<<< HEAD:.next/types/app/(dashboard)/frontform/listregion/page.ts
 // File: D:\newavatar_new\src\app\(dashboard)\frontform\listregion\page.tsx
 import * as entry from '../../../../../../src/app/(dashboard)/frontform/listregion/page.js'
+=======
+// File: D:\newavatar_project_new\src\app\(dashboard)\frontform\listcity\page.tsx
+import * as entry from '../../../../../../src/app/(dashboard)/frontform/listcity/page.js'
+>>>>>>> 2336b343b28a620747098ed5ba6638757dbb3827:.next/types/app/(dashboard)/frontform/listcity/page.ts
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
 type TEntry = typeof import('../../../../../../src/app/(dashboard)/frontform/listregion/page.js')

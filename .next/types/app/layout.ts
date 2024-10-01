@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 // File: D:\newavatar_new\src\app\layout.tsx
+=======
+// File: D:\newavatar_project_new\src\app\layout.tsx
+>>>>>>> 2336b343b28a620747098ed5ba6638757dbb3827
 import * as entry from '../../../src/app/layout.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

@@ -1,5 +1,4 @@
 {
-  "/_not-found/page": "app/_not-found/page.js",
   "/(authentication)/login/page": "app/(authentication)/login/page.js",
   "/(dashboard)/page": "app/(dashboard)/page.js",
   "/(dashboard)/frontform/listzone/page": "app/(dashboard)/frontform/listzone/page.js",
