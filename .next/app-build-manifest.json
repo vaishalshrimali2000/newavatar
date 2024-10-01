@@ -1,4 +1,5 @@
 {
+<<<<<<< .merge_file_mmPo3n
   "pages": {
     "/(dashboard)/pokemons/Items/page": [
       "static/chunks/webpack.js",
@@ -47,4 +48,7 @@
       "static/chunks/app/(dashboard)/pokemons/addleadsorce/page.js"
     ]
   }
+=======
+  "pages": {}
+>>>>>>> .merge_file_n237LU
 }
