@@ -17,13 +17,15 @@ import {
   CFormSelect,
 } from '@coreui/react';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
-const ItemsCrudOperations = ({ isEditMode, itemDetails, onClose, onRefresh }) => {
+const ItemsCrudOperations = ({ isEditMode, itemDetails, onClose, onRefresh, rowData }) => {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [formDetails, setFormDetails] = useState(itemDetails);
   const [talukas, setTalukas] = useState([]); // State for Taluka options
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
   // Initialize formDetails when in edit mode
   useEffect(() => {
@@ -36,11 +38,12 @@ const ItemsCrudOperations = ({ isEditMode, itemDetails, onClose, onRefresh }) =>
   useEffect(() => {
     const fetchTalukas = async () => {
       try {
-        const response = await axios.get('http://192.168.168.133:90/mst/getTaluka'); // Adjust the URL as needed
+        const response = await axios.get(`${apiUrl}/getTaluka`); // Adjust the URL as needed
         setTalukas(response.data); // Assuming the response data is an array of Talukas
       } catch (error) {
-        setErrorMessage(error.response?.data?.message || error.message);
-        setShowErrorModal(true);
+        // setErrorMessage(error.response?.data?.message || error.message);
+        // setShowErrorModal(true);
+        toast.error(error.response?.data?.message || error.message);
       }
     };
 
@@ -59,39 +62,57 @@ const ItemsCrudOperations = ({ isEditMode, itemDetails, onClose, onRefresh }) =>
   const handleSubmit = async () => {
     if (validateForm()) {
       const url = isEditMode
-        ? 'http://192.168.168.133:90/mst/editcity'
-        : 'http://192.168.168.133:90/mst/addcity';
+        ? `${apiUrl}/editcity`
+        : `${apiUrl}/addcity`;
 
       try {
-        console.log("formDetails api : " + JSON.stringify(formDetails));
-        
-        const response = await axios.post(url, formDetails, {
-          headers: { 'Content-Type': 'application/json' },
-        });
-
-        if (response.status >= 200 && response.status < 300) {
-          setShowSuccessModal(true);
-          setTimeout(() => {
-            onRefresh();
-            onClose();
-          }, 1000);
+        let isDuplicate = 0;
+        if (isEditMode) {
+          const tmpEditData = rowData.filter((itm) => {
+            return itm.CityID !== itemDetails.CityID && itm.CityName === formDetails.CityName
+          });
+          isDuplicate = tmpEditData?.length > 0 ? 1 : 0;
         } else {
-          throw new Error('Failed to submit');
+          const tmpData = rowData.filter((itm) => {
+            return itm.CityName === formDetails.CityName
+          });
+          isDuplicate = tmpData?.length > 0 ? 1 : 0;
+        }
+        if (isDuplicate === 1) {
+          toast.error("City name already exists!");
+        } else {
+          const response = await axios.post(url, formDetails, {
+            headers: { 'Content-Type': 'application/json' },
+          });
+
+          if (response.status >= 200 && response.status < 300) {
+            // setShowSuccessModal(true);
+            toast.success(isEditMode ? 'City successfully updated!' : 'City successfully created!');
+            setTimeout(() => {
+              onRefresh();
+              onClose();
+            }, 1000);
+          } else {
+            throw new Error('Failed to submit');
+          }
         }
       } catch (error) {
-        setErrorMessage(error.response?.data?.message || error.message);
-        setShowErrorModal(true);
+        // setErrorMessage(error.response?.data?.message || error.message);
+        // setShowErrorModal(true);
+        // @ts-ignore
+        toast.error(error.response?.data?.message || error.message);
       }
     } else {
-      setErrorMessage('Please fill all fields, including Taluka.');
-      setShowErrorModal(true);
+      toast.error("Please fill all required field!");
+      // setErrorMessage('Please fill all fields');
+      // setShowErrorModal(true);
     }
   };
 
   useEffect(() => {
     const fetchZones = async () => {
       try {
-        var url = 'http://192.168.168.133:90/mst/searchcity/' + itemDetails.CityID;
+        var url = `${apiUrl}/searchcity/` + itemDetails.CityID;
         console.log("log : " + url);
         
         const response = await axios.get(url); // Replace with your API endpoint
@@ -101,7 +122,8 @@ const ItemsCrudOperations = ({ isEditMode, itemDetails, onClose, onRefresh }) =>
         setFormDetails(response.data[0]); // Assuming response.data is an array of zones
         
       } catch (error) {
-        setErrorMessage('Failed to fetch zones');
+        // setErrorMessage('Failed to fetch zones');
+        toast.error('Failed to fetch zones');
         setFormDetails(itemDetails);
       }
     };
