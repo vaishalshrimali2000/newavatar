@@ -1,5 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
+import Axios from '../../../Axios/Axios';
 import axios from 'axios';
 import {
   CButton,
@@ -19,6 +20,27 @@ import {
 } from '@coreui/react';
 import { FaEdit, FaPlus, FaTrash } from 'react-icons/fa';
 import ItemsCrudOperations from './CreateUpdateItem'; // Ensure this component is implemented
+import AddItemForm from './AddItemForm';
+
+export const initialItemValues: any = {
+  itemOrg: "",
+  itemCategory: "",
+  itemCollection: "",
+  itemType: "",
+  ItemCode: "",
+  ItemName: "",
+  ItemMRP: "",
+  ItemRPrice: "",
+  ItemDPrice: "",
+  ItemStoneQty: "",
+  ItemStoneColorCommonID: "",
+  ItemStoneShapeCommonID: "",
+  ItemMetalWt: "",
+  ItemStoneWt: "",
+  orderSuffix: "",
+  odIdNo: "",
+  kt: "",
+};
 
 const ItemsTable = () => {
   const [data, setData] = useState([]);
@@ -37,27 +59,177 @@ const ItemsTable = () => {
   const [deleteErrorMessage, setDeleteErrorMessage] = useState('');
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
-  const apiUrl = 'http://192.168.168.133:90/mst/getbrands'; // Your API URL
-
   // Fetch data when component mounts
   useEffect(() => {
     fetchData();
+    getStoneQualityList();
+    getItemDaysList();
+    getSubCategoryList();
+    getCartDaysList();
+    getUOMList();
+    getMetalList();
+    getStoneList();
+    getStoneColorList();
+    getStoneShapesList();
+    getPPTagList();
+    getStarColorList();
   }, []);
 
   const fetchData = () => {
     setLoading(true);
-    axios
-      .get(apiUrl)
+    Axios
+      .get('/msts/getitem')
       .then((response) => {
-        if (response.headers['content-type'].includes('application/json')) {
-          setData(response.data);
-        } else {
-          throw new Error('Unexpected response format');
-        }
+        setData(response.data);
       })
-      .catch((error) => setError(error))
+      .catch((error) => {
+        setError(error);
+      })
       .finally(() => setLoading(false));
   };
+
+  // GET STONE QUALITY DROPDOWN DATA
+  const [stoneQualityList, setStoneQualityList] = useState([]);
+  const getStoneQualityList = () => {
+    Axios
+      .get('/mst/getstonequality')
+      .then((response) => {
+        setStoneQualityList(response.data);
+      })
+      .catch((error) => {
+        setError(error);
+      })
+  }
+  
+  // GET ITEM DAYS DROPDOWN DATA
+  const [itemDaysList, setItemDaysList] = useState([]);
+  const getItemDaysList = () => {
+    Axios
+      .get('/mst/getitemdays')
+      .then((response) => {
+        setItemDaysList(response.data);
+      })
+      .catch((error) => {
+        setError(error);
+      })
+  }
+
+  // GET SUBCATEGORY LIST DROPDOWN DATA
+  const [subCategoryList, setSubCategoryList] = useState([]);
+  const getSubCategoryList = () => {
+    Axios
+      .get('/mst/getsubcategories')
+      .then((response) => {
+        setSubCategoryList(response.data);
+      })
+      .catch((error) => {
+        setError(error);
+      })
+  }
+
+  // GET SUBCATEGORY LIST DROPDOWN DATA
+  const [cartDaysList, setCartDaysList] = useState([]);
+  const getCartDaysList = () => {
+    Axios
+      .get('/mst/getcartdays')
+      .then((response) => {
+        setCartDaysList(response.data);
+      })
+      .catch((error) => {
+        setError(error);
+      })
+  }
+
+  // GET UOM LIST DROPDOWN DATA
+  const [uomList, setUOMList] = useState([]);
+  const getUOMList = () => {
+    Axios
+      .get('/mst/getuom')
+      .then((response) => {
+        setUOMList(response.data);
+      })
+      .catch((error) => {
+        setError(error);
+      })
+  }
+
+  // GET METALS LIST DROPDOWN DATA
+  const [metalList, setMetalList] = useState([]);
+  const getMetalList = () => {
+    Axios
+      .get('/mst/getmetals')
+      .then((response) => {
+        setMetalList(response.data);
+      })
+      .catch((error) => {
+        setError(error);
+      })
+  }
+
+  // GET STONE LIST DROPDOWN DATA
+  const [stoneList, setStoneList] = useState([]);
+  const getStoneList = () => {
+    Axios
+      .get('/mst/getstones')
+      .then((response) => {
+        setStoneList(response.data);
+      })
+      .catch((error) => {
+        setError(error);
+      })
+  }
+
+  // GET STONE COLOR LIST DROPDOWN DATA
+  const [stoneColorList, setStoneColorList] = useState([]);
+  const getStoneColorList = () => {
+    Axios
+      .get('/mst/getstonecolors')
+      .then((response) => {
+        setStoneColorList(response.data);
+      })
+      .catch((error) => {
+        setError(error);
+      })
+  }
+
+  // GET STONE SHAP LIST DROPDOWN DATA
+  const [stoneShapesList, setStoneShapesList] = useState([]);
+  const getStoneShapesList = () => {
+    Axios
+      .get('/mst/getstoneshapes')
+      .then((response) => {
+        setStoneShapesList(response.data);
+      })
+      .catch((error) => {
+        setError(error);
+      })
+  }
+
+  // GET STONE SHAP LIST DROPDOWN DATA
+  const [pptagList, setPPTagList] = useState([]);
+  const getPPTagList = () => {
+    Axios
+      .get('/mst/getpptags')
+      .then((response) => {
+        setPPTagList(response.data);
+      })
+      .catch((error) => {
+        setError(error);
+      })
+  }
+
+  // GET STONE SHAP LIST DROPDOWN DATA
+  const [starColorList, setStarColorList] = useState([]);
+  const getStarColorList = () => {
+    Axios
+      .get('/mst/getstarcolors')
+      .then((response) => {
+        setStarColorList(response.data);
+      })
+      .catch((error) => {
+        setError(error);
+      })
+  }
 
   const handleOpenForm = (item = null) => {
     setIsEditMode(!!item);
@@ -76,9 +248,9 @@ const ItemsTable = () => {
   };
 
   const handleDelete = () => {
-    axios
-      .post('http://192.168.168.133:90/mst/disablebrand', {
-        BrandID: itemToDelete.BrandID,
+    Axios
+      .post('/disableitem', {
+        BrandID: itemToDelete.ItemID,
         UpdatedBy: itemToDelete.UpdatedBy,
       })
       .then(() => {
@@ -124,8 +296,8 @@ const ItemsTable = () => {
   // Filter data based on search term
   const filteredData = data.filter(
     (item) =>
-      item.BrandID.toString().includes(searchTerm) ||
-      item.BrandName.toLowerCase().includes(searchTerm.toLowerCase())
+      item?.ItemCode?.toString()?.includes(searchTerm) ||
+      item?.ItemName?.toLowerCase()?.includes(searchTerm.toLowerCase())
   );
 
   const currentEntries = filteredData.slice((currentPage - 1) * entriesPerPage, currentPage * entriesPerPage);
@@ -136,9 +308,16 @@ const ItemsTable = () => {
   return (
     <CCard style={{ margin: '0', padding: '0' }}>
       {showForm ? (
-        <ItemsCrudOperations
+        // <ItemsCrudOperations
+        //   isEditMode={isEditMode}
+        //   itemDetails={selectedItem || { BrandName: '', Description: '', SortOrder: '' }}
+        //   onClose={handleCloseForm}
+        //   onRefresh={fetchData}
+        //   onSuccess={handleSuccess}
+        // />
+        <AddItemForm
           isEditMode={isEditMode}
-          itemDetails={selectedItem || { BrandName: '', Description: '', SortOrder: '' }}
+          itemDetails={selectedItem || initialItemValues}
           onClose={handleCloseForm}
           onRefresh={fetchData}
           onSuccess={handleSuccess}
@@ -149,7 +328,7 @@ const ItemsTable = () => {
             className="d-flex justify-content-between align-items-center"
             style={{ backgroundColor: '#040430', color: 'white' }}
           >
-            <strong>List Brands</strong>
+            <strong>List Items</strong>
             <div className="d-flex align-items-center">
               <label htmlFor="search-bar" style={{ marginRight: '10px', color: 'white' }}>
                 Search:
@@ -175,7 +354,7 @@ const ItemsTable = () => {
                 style={{ fontSize: '0.80rem', height: '32px', display: 'flex', alignItems: 'center', padding: '0 10px' }}
               >
                 <FaPlus style={{ marginRight: '5px' }} />
-                Add Brand
+                Add Item
               </CButton>
             </div>
           </CCardHeader>
@@ -184,19 +363,19 @@ const ItemsTable = () => {
               <CTableHead style={{ backgroundColor: '#DEDDF7' }}>
                 <CTableRow>
                   <CTableHeaderCell style={{ textAlign: 'start' }}>ID</CTableHeaderCell>
-                  <CTableHeaderCell style={{ textAlign: 'start' }}>Brand Name</CTableHeaderCell>
+                  <CTableHeaderCell style={{ textAlign: 'start' }}>Item Name</CTableHeaderCell>
+                  <CTableHeaderCell style={{ textAlign: 'start' }}>Item Code</CTableHeaderCell>
                   <CTableHeaderCell style={{ textAlign: 'start' }}>Description</CTableHeaderCell>
-                  <CTableHeaderCell style={{ textAlign: 'start' }}>Sort Order</CTableHeaderCell>
                   <CTableHeaderCell style={{ textAlign: 'start' }}>Actions</CTableHeaderCell>
                 </CTableRow>
               </CTableHead>
               <CTableBody>
                 {currentEntries.map((item) => (
                   <CTableRow key={item.BrandID}>
-                    <CTableDataCell style={{ textAlign: 'start' }}>{item.BrandID}</CTableDataCell>
-                    <CTableDataCell style={{ textAlign: 'start' }}>{item.BrandName}</CTableDataCell>
-                    <CTableDataCell style={{ textAlign: 'start' }}>{item.Description}</CTableDataCell>
-                    <CTableDataCell style={{ textAlign: 'start' }}>{item.SortOrder}</CTableDataCell>
+                    <CTableDataCell style={{ textAlign: 'start' }}>{item.ItemID}</CTableDataCell>
+                    <CTableDataCell style={{ textAlign: 'start' }}>{item.ItemName}</CTableDataCell>
+                    <CTableDataCell style={{ textAlign: 'start' }}>{item.ItemCode}</CTableDataCell>
+                    <CTableDataCell style={{ textAlign: 'start' }}>{item.ItemDesc}</CTableDataCell>
                     <CTableDataCell style={{ textAlign: 'start' }}>
                       <CButton color="black" onClick={() => handleOpenForm(item)}>
                         <FaEdit />
