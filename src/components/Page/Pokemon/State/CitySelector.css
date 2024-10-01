@@ -1,0 +1,59 @@
+/* CitySelector.css */
+.city-list {
+    max-height: 300px; /* Optional: Limit the height of the city list */
+    overflow-y: auto;  /* Optional: Add vertical scrolling if necessary */
+  }
+  
+  .section-title {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .styled-select {
+    border-radius: 5px;
+    padding: 0.5rem;
+  }
+  
+  .form-check-input.rounded-checkbox {
+    border-radius: 5px;
+  }
+  
+  .form-label {
+    color: #000000;
+  }
+  
+  .form-check-label {
+    margin-left: 10px;
+  }
+  .text-right {
+    text-align: right;
+  }
+  
+  .mt-4 {
+    margin-top: 1.5rem;
+  }
+  
+  .mb-4 {
+    margin-bottom: 1.5rem;
+  }
+  
+  .city-item {
+    display: flex;
+    align-items: center;
+    background-color: rgb(233, 236, 239);
+    border-radius: 5px;
+    margin: 5px 0;
+    height: 50px;
+    padding: 0 10px;
+  }
+  
+  .rounded-checkbox {
+    border-radius: 50%;
+  }
+  
+  .section-title {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 1.25rem;
+  }
+  

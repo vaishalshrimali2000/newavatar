@@ -1,0 +1,5 @@
+{
+  "/(dashboard)/frontform/listcity/page": "app/(dashboard)/frontform/listcity/page.js",
+  "/(dashboard)/frontform/listzone/page": "app/(dashboard)/frontform/listzone/page.js",
+  "/(dashboard)/page": "app/(dashboard)/page.js"
+}
