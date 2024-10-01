@@ -1,15 +1,5 @@
 {
   "pages": {
-    "/(dashboard)/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(dashboard)/page.js"
-    ],
-    "/(dashboard)/layout": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(dashboard)/layout.js"
-    ],
     "/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
@@ -21,20 +11,25 @@
       "static/chunks/main-app.js",
       "static/chunks/app/(dashboard)/frontform/listcity/page.js"
     ],
-    "/(dashboard)/frontform/listzone/page": [
+    "/(dashboard)/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(dashboard)/frontform/listzone/page.js"
+      "static/chunks/app/(dashboard)/layout.js"
     ],
-    "/(dashboard)/frontform/listusertype/page": [
+    "/(dashboard)/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(dashboard)/frontform/listusertype/page.js"
+      "static/chunks/app/(dashboard)/page.js"
     ],
-    "/_not-found/page": [
+    "/(dashboard)/pokemons/addleadsorce/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/_not-found/page.js"
+      "static/chunks/app/(dashboard)/pokemons/addleadsorce/page.js"
+    ],
+    "/(dashboard)/frontform/listarea/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(dashboard)/frontform/listarea/page.js"
     ]
   }
 }
