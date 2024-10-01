@@ -131,7 +131,7 @@ const ItemsTable = () => {
   const currentEntries = filteredData.slice((currentPage - 1) * entriesPerPage, currentPage * entriesPerPage);
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
+  if (error) return <p>Error1: {error.message}</p>;
 
   return (
     <CCard style={{ margin: '0', padding: '0' }}>
