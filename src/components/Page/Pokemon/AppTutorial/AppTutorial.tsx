@@ -142,6 +142,7 @@ const ItemsTable = () => {
           onClose={handleCloseForm}
           onRefresh={fetchData}
           onSuccess={handleSuccess}
+          rowData={data}
         />
       ) : (
         <>
