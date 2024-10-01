@@ -1,5 +1,0 @@
-{
-  "/(dashboard)/pokemons/addleadsorce/page": "app/(dashboard)/pokemons/addleadsorce/page.js",
-  "/(dashboard)/page": "app/(dashboard)/page.js",
-  "/(dashboard)/frontform/listcity/page": "app/(dashboard)/frontform/listcity/page.js"
-}
