@@ -1,5 +1,4 @@
 {
-<<<<<<< .merge_file_mmPo3n
   "pages": {
     "/(dashboard)/pokemons/Items/page": [
       "static/chunks/webpack.js",
@@ -17,11 +16,6 @@
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
-    "/(dashboard)/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(dashboard)/page.js"
-    ],
     "/(dashboard)/frontform/listcity/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
@@ -37,18 +31,10 @@
       "static/chunks/main-app.js",
       "static/chunks/app/(dashboard)/pokemons/apptutorial/page.js"
     ],
-    "/(dashboard)/frontform/listcollection/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(dashboard)/frontform/listcollection/page.js"
-    ],
     "/(dashboard)/pokemons/addleadsorce/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/(dashboard)/pokemons/addleadsorce/page.js"
     ]
   }
-=======
-  "pages": {}
->>>>>>> .merge_file_n237LU
 }
