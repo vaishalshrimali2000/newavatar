@@ -59,9 +59,9 @@ const ItemsCrudOperations = ({ isEditMode, itemDetails, onClose, onRefresh }) =>
         setShowErrorModal(true);
       }
     };
-    if (isEditMode) {
+ 
       fetchCities();
-    }
+    
   }, []);
 
   useEffect(() => {
