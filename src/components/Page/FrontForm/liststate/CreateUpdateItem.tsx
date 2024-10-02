@@ -53,20 +53,24 @@ const ItemsCrudOperations = ({ isEditMode, itemDetails, onClose, onRefresh }) =>
     const fetchRegions = async () => {
       try {
         const response = await axios.get('http://192.168.168.133:90/mst/getregions'); // Replace with your API endpoint
+        console.log("get region : " + JSON.stringify(response));
+        
         setRegions(response.data); // Assuming response.data is an array of regions
       } catch (error) {
         setErrorMessage('Failed to fetch regions');
         setShowErrorModal(true);
       }
     };
-    if (isEditMode) {
+ 
       fetchRegions();
-    }
+    
   }, []);
 
   useEffect(() => {
     const fetchZones = async () => {
       try {
+        console.log("state id  : " + JSON.stringify(itemDetails)  );
+        
         var url = 'http://192.168.168.133:90/mst/searchstate/' + itemDetails.StateID;
         const response = await axios.get(url); // Replace with your API endpoint
       
