@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { CButton, CFormLabel, CFormInput, CCard, CCardBody, CCardHeader, CModal, CModalBody, CModalHeader, CModalTitle, CModalFooter, CFormTextarea, CRow, CCol, CFormSelect } from '@coreui/react';
 import axios from 'axios';
-
-const ItemsCrudOperations = ({ isEditMode, itemDetails, onClose, onRefresh }) => {
+import { toast } from 'react-toastify';
+const ItemsCrudOperations = ({ isEditMode, itemDetails, onClose, onRefresh,rowData }) => {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [formDetails, setFormDetails] = useState(itemDetails);
   const [zones, setZones] = useState([]); // State to hold dropdown options
-
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormDetails((prev) => ({ ...prev, [name]: value }));
@@ -18,68 +19,127 @@ const ItemsCrudOperations = ({ isEditMode, itemDetails, onClose, onRefresh }) =>
     return formDetails.RegionName && formDetails.Description && formDetails.SortOrder && formDetails.ZoneID ;
   };
 
+  // const handleSubmit = async () => {
+  //   if (validateForm()) {
+  //     const url = isEditMode
+  //       ? `${apiUrl}/editregion`
+  //       : `${apiUrl}/addregion`;
+
+  //     try {
+  //       const response = await axios.post(url, formDetails, {
+  //         headers: { 'Content-Type': 'application/json' },
+  //       });
+
+  //       if (response.status >= 200 && response.status < 300) {
+  //         setShowSuccessModal(true);
+  //         toast.success(isEditMode ? 'region successfully updated!' : 'region successfully created!');
+           
+  //         setTimeout(() => {
+  //           onRefresh();
+  //           onClose();
+  //         }, 1000);
+  //       } else {
+  //         throw new Error('Failed to submit');
+  //       }
+  //     } catch (error) {
+  //       setErrorMessage(error.response?.data?.message || error.message);
+  //       setShowErrorModal(true);
+  //     }
+  //   } else {
+  //     setErrorMessage('Please fill all fields, including Zone.');
+  //     setShowErrorModal(true);
+  //   }
+  // };
   const handleSubmit = async () => {
     if (validateForm()) {
       const url = isEditMode
-        ? 'http://192.168.168.133:90/mst/editregion'
-        : 'http://192.168.168.133:90/mst/addregion';
+        ? `${apiUrl}/editregion`
+        : `${apiUrl}/addregion`;
 
       try {
-        const response = await axios.post(url, formDetails, {
-          headers: { 'Content-Type': 'application/json' },
-        });
-
-        if (response.status >= 200 && response.status < 300) {
-          setShowSuccessModal(true);
-          setTimeout(() => {
-            onRefresh();
-            onClose();
-          }, 1000);
+        let isDuplicate = 0;
+        if (isEditMode) {
+          const tmpEditData = rowData.filter((itm) => {
+            return itm.RegionID !== itemDetails.RegionID && itm.RegionName === formDetails.RegionName
+          });
+          isDuplicate = tmpEditData?.length > 0 ? 1 : 0;
         } else {
-          throw new Error('Failed to submit');
+          const tmpData = rowData.filter((itm) => {
+            return itm.RegionName === formDetails.RegionName
+          });
+          isDuplicate = tmpData?.length > 0 ? 1 : 0;
+        }
+        if (isDuplicate === 1) {
+          toast.error("Region name already exists!");
+        } else {
+          const response = await axios.post(url, formDetails, {
+            headers: { 'Content-Type': 'application/json' },
+          });
+
+          if (response.status >= 200 && response.status < 300) {
+            // setShowSuccessModal(true);
+            toast.success(isEditMode ? 'Region successfully updated!' : 'Region successfully created!');
+            setTimeout(() => {
+              onRefresh();
+              onClose();
+            }, 1000);
+          } else {
+            throw new Error('Failed to submit');
+          }
         }
       } catch (error) {
-        setErrorMessage(error.response?.data?.message || error.message);
-        setShowErrorModal(true);
+        // setErrorMessage(error.response?.data?.message || error.message);
+        // setShowErrorModal(true);
+        // @ts-ignore
+        toast.error(error.response?.data?.message || error.message);
       }
     } else {
-      setErrorMessage('Please fill all fields, including Zone.');
-      setShowErrorModal(true);
+      toast.error("Please fill all required field!");
+      // setErrorMessage('Please fill all fields');
+      // setShowErrorModal(true);
     }
   };
 
-  // Fetch zones on component mount
   useEffect(() => {
-    const fetchZones = async () => {
-      try {
-        const response = await axios.get('http://192.168.168.133:90/mst/getzones'); // Replace with your API endpoint
-        setZones(response.data); // Assuming response.data is an array of zones
-      } catch (error) {
-        setErrorMessage('Failed to fetch zones');
-        setShowErrorModal(true);
-      }
-    };
-   
+    if (isEditMode) {
+      const fetchZones = async () => {
+        try {
+          const response = await axios.get(`${apiUrl}/getzones`);
+          setZones(response.data);
+        } catch (error) {
+          toast.error('Failed to fetch zones');
+          setShowErrorModal(true);
+        }
+      };
+  
+      const fetchRegionDetails = async () => {
+        try {
+          const url = `${apiUrl}/searchregion/${itemDetails.RegionID}`;
+          const response = await axios.get(url);
+          setFormDetails(response.data[0]);
+        } catch (error) {
+          setErrorMessage('Failed to fetch region details');
+          setFormDetails(itemDetails);
+        }
+      };
+  
       fetchZones();
-    
-  }, []);
-
-  useEffect(() => {
-    const fetchZones = async () => {
-      try {
-        var url = 'http://192.168.168.133:90/mst/searchregion/' + itemDetails.RegionID;
-        const response = await axios.get(url); // Replace with your API endpoint
-      
-        setFormDetails(response.data[0]); // Assuming response.data is an array of zones
-        
-      } catch (error) {
-        setErrorMessage('Failed to fetch zones');
-        setFormDetails(itemDetails);
-      }
-    };
-
-    fetchZones();
+      fetchRegionDetails();
+    } else {
+      // Fetch zones when adding new region (not in edit mode)
+      const fetchZones = async () => {
+        try {
+          const response = await axios.get(`${apiUrl}/getzones`);
+          setZones(response.data);
+        } catch (error) {
+          toast.error('Failed to fetch zones');
+          setShowErrorModal(true);
+        }
+      };
+      fetchZones();
+    }
   }, [isEditMode]);
+  
 
   return (
     <CCard>
@@ -125,6 +185,18 @@ const ItemsCrudOperations = ({ isEditMode, itemDetails, onClose, onRefresh }) =>
           </CCol>
 
           <CCol md={6}>
+          {/* <CFormLabel htmlFor="DistrictID">Taluka:</CFormLabel>
+            <CFormSelect
+              id="DistrictID"
+              name="DistrictID"
+              value={formDetails.DistrictID || ''}
+              onChange={handleChange}
+              required
+            >
+              <option value="">Select a taluka</option>
+              {talukas.map((taluka) => (
+                <option key={taluka.TalukaID} value={taluka.TalukaID}>{taluka.TalukaName}</option>
+              ))} */}
             <CFormLabel htmlFor="ZoneID">Zone:</CFormLabel>
             <CFormSelect
               id="ZoneID"
@@ -153,7 +225,7 @@ const ItemsCrudOperations = ({ isEditMode, itemDetails, onClose, onRefresh }) =>
       </CCardBody>
 
       {/* Success Modal */}
-      <CModal visible={showSuccessModal} onClose={() => setShowSuccessModal(false)}>
+      {/* <CModal visible={showSuccessModal} onClose={() => setShowSuccessModal(false)}>
         <CModalHeader onClose={() => setShowSuccessModal(false)}>
           <CModalTitle>Success</CModalTitle>
         </CModalHeader>
@@ -165,7 +237,7 @@ const ItemsCrudOperations = ({ isEditMode, itemDetails, onClose, onRefresh }) =>
             OK
           </CButton>
         </CModalFooter>
-      </CModal>
+      </CModal> */}
 
       {/* Error Modal */}
       <CModal visible={showErrorModal} onClose={() => setShowErrorModal(false)}>
