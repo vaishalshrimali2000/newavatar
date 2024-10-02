@@ -37,7 +37,6 @@ const ItemsTable = () => {
   const [showDeleteErrorModal, setShowDeleteErrorModal] = useState(false);
   const [deleteErrorMessage, setDeleteErrorMessage] = useState('');
   const [showSuccessModal, setShowSuccessModal] = useState(false);
-
   const apiUrl = 'http://192.168.168.133:90/mst/getantique'; // Your API URL
 
   // Fetch data when component mounts
