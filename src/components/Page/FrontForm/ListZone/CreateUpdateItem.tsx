@@ -1,56 +1,105 @@
 import React, { useEffect, useState } from 'react';
 import { CButton, CFormLabel, CFormInput, CCard, CCardBody, CCardHeader, CModal, CModalBody, CModalHeader, CModalTitle, CModalFooter, CFormTextarea, CRow, CCol } from '@coreui/react';
 import axios from 'axios';
-
-const ItemsCrudOperations = ({ isEditMode, itemDetails, onClose, onRefresh }) => {
+import { toast } from 'react-toastify';
+const ItemsCrudOperations = ({ isEditMode, itemDetails, onClose, onRefresh,rowData }) => {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [formDetails, setFormDetails] = useState(itemDetails);
-
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormDetails((prev) => ({ ...prev, [name]: value }));
   };
-
+ console.log(rowData,'vivi');
   const validateForm = () => {
     return formDetails.ZoneName && formDetails.Description && formDetails.SortOrder;
   };
 
+  // const handleSubmit = async () => {
+  //   if (validateForm()) {
+  //     const url = isEditMode
+  //       ? `${apiUrl}/editzone`
+  //       : `${apiUrl}/addzone`;
+
+  //     try {
+  //       const response = await axios.post(url, formDetails, {
+  //         headers: { 'Content-Type': 'application/json' },
+  //       });
+
+  //       if (response.status >= 200 && response.status < 300) {
+  //         setShowSuccessModal(true);
+  //         toast.success(isEditMode ? 'Zone successfully updated!' : 'Zone successfully created!');
+  //         setTimeout(() => {
+  //           onRefresh();
+  //           onClose();
+  //         }, 1000);
+  //       } else {
+  //         throw new Error('Failed to submit');
+  //       }
+  //     } catch (error) {
+  //       toast.error(error.response?.data?.message || error.message);
+  //       setShowErrorModal(true);
+  //     }
+  //   } else {
+  //     setErrorMessage('Please fill all fields');
+  //     setShowErrorModal(true);
+  //   }
+  // };
   const handleSubmit = async () => {
     if (validateForm()) {
       const url = isEditMode
-        ? 'http://192.168.168.133:90/mst/editzone'
-        : 'http://192.168.168.133:90/mst/addzone';
+        ? `${apiUrl}/editzone`
+        : `${apiUrl}/addzone`;
 
       try {
-        const response = await axios.post(url, formDetails, {
-          headers: { 'Content-Type': 'application/json' },
-        });
-
-        if (response.status >= 200 && response.status < 300) {
-          setShowSuccessModal(true);
-          setTimeout(() => {
-            onRefresh();
-            onClose();
-          }, 1000);
+        let isDuplicate = 0;
+        if (isEditMode) {
+          const tmpEditData = rowData.filter((itm) => {
+            return itm.ZoneID !== itemDetails.ZoneID && itm.ZoneName === formDetails.ZoneName
+          });
+          isDuplicate = tmpEditData?.length > 0 ? 1 : 0;
         } else {
-          throw new Error('Failed to submit');
+          const tmpData = rowData.filter((itm) => {
+            return itm.ZoneName === formDetails.ZoneName
+          });
+          isDuplicate = tmpData?.length > 0 ? 1 : 0;
+        }
+        if (isDuplicate === 1) {
+          toast.error("zone name already exists!");
+        } else {
+          const response = await axios.post(url, formDetails, {
+            headers: { 'Content-Type': 'application/json' },
+          });
+
+          if (response.status >= 200 && response.status < 300) {
+            // setShowSuccessModal(true);
+            toast.success(isEditMode ? 'zone successfully updated!' : 'zone successfully created!');
+            setTimeout(() => {
+              onRefresh();
+              onClose();
+            }, 1000);
+          } else {
+            throw new Error('Failed to submit');
+          }
         }
       } catch (error) {
-        setErrorMessage(error.response?.data?.message || error.message);
-        setShowErrorModal(true);
+        // setErrorMessage(error.response?.data?.message || error.message);
+        // setShowErrorModal(true);
+        // @ts-ignore
+        toast.error(error.response?.data?.message || error.message);
       }
     } else {
-      setErrorMessage('Please fill all fields');
-      setShowErrorModal(true);
+      toast.error("Please fill all required field!");
+      // setErrorMessage('Please fill all fields');
+      // setShowErrorModal(true);
     }
   };
-
   useEffect(() => {
     const fetchZones = async () => {
       try {
-        var url = 'http://192.168.168.133:90/mst/searchzone/' + itemDetails.ZoneID;
+        var url = `${apiUrl}/searchzone/` + itemDetails.ZoneID;
         const response = await axios.get(url); // Replace with your API endpoint
       
         setFormDetails(response.data[0]); // Assuming response.data is an array of zones
@@ -121,7 +170,7 @@ const ItemsCrudOperations = ({ isEditMode, itemDetails, onClose, onRefresh }) =>
       </CCardBody>
 
       {/* Success Modal */}
-      <CModal visible={showSuccessModal} onClose={() => setShowSuccessModal(false)}>
+      {/* <CModal visible={showSuccessModal} onClose={() => setShowSuccessModal(false)}>
         <CModalHeader onClose={() => setShowSuccessModal(false)}>
           <CModalTitle>Success</CModalTitle>
         </CModalHeader>
@@ -133,7 +182,7 @@ const ItemsCrudOperations = ({ isEditMode, itemDetails, onClose, onRefresh }) =>
             OK
           </CButton>
         </CModalFooter>
-      </CModal>
+      </CModal> */}
 
       {/* Error Modal */}
       <CModal visible={showErrorModal} onClose={() => setShowErrorModal(false)}>

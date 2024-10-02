@@ -19,7 +19,7 @@ import {
 } from '@coreui/react';
 import { FaEdit, FaPlus, FaTrash } from 'react-icons/fa';
 import ItemsCrudOperations from './CreateUpdateItem'; // Ensure this component is implemented
-
+import { toast } from 'react-toastify';
 const ItemsTable = () => {
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -36,8 +36,8 @@ const ItemsTable = () => {
   const [showDeleteErrorModal, setShowDeleteErrorModal] = useState(false);
   const [deleteErrorMessage, setDeleteErrorMessage] = useState('');
   const [showSuccessModal, setShowSuccessModal] = useState(false);
-
-  const apiUrl = 'http://192.168.168.133:90/mst/getzones'; // Your API URL
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  // const apiUrl = `${apiUrl}/getzones`; // Your API URL
 
   // Fetch data when component mounts
   useEffect(() => {
@@ -47,7 +47,7 @@ const ItemsTable = () => {
   const fetchData = () => {
     setLoading(true);
     axios
-      .get(apiUrl)
+      .get(`${apiUrl}/getzones`)
       .then((response) => {
         if (response.headers['content-type'].includes('application/json')) {
           setData(response.data);
@@ -75,27 +75,51 @@ const ItemsTable = () => {
     setShowDeleteConfirm(true);
   };
 
+  // const handleDelete = () => {
+  //   axios
+  //     .post(`${apiUrl}/disablezone`, {
+  //       ZoneID: itemToDelete.ZoneID,
+  //       UpdatedBy: itemToDelete.UpdatedBy,
+  //     })
+  //     .then(() => {
+  //       fetchData();
+  //       setShowDeleteConfirm(false);
+  //       setShowDeleteSuccessModal(true);
+        
+  //       // Close the success modal after 1 second
+  //       setTimeout(() => {
+  //         setShowDeleteSuccessModal(false);
+  //       }, 1000);
+  //     })
+  //     .catch((error) => {
+  //       setDeleteErrorMessage(error.message);
+  //       setShowDeleteErrorModal(true);
+  //     });
+  // };
   const handleDelete = () => {
     axios
-      .post('http://192.168.168.133:90/mst/disablezone', {
+      .post(`${apiUrl}/disablezone`, {
         ZoneID: itemToDelete.ZoneID,
         UpdatedBy: itemToDelete.UpdatedBy,
       })
-      .then(() => {
+      .then((res) => {
         fetchData();
         setShowDeleteConfirm(false);
-        setShowDeleteSuccessModal(true);
-        
-        // Close the success modal after 1 second
-        setTimeout(() => {
-          setShowDeleteSuccessModal(false);
-        }, 1000);
+        // setShowDeleteSuccessModal(true);
+
+        // // Close the success modal after 1 second
+        // setTimeout(() => {
+        //   setShowDeleteSuccessModal(false);
+        // }, 1000);
+        toast.success("zone deleted successfully!");
       })
       .catch((error) => {
-        setDeleteErrorMessage(error.message);
-        setShowDeleteErrorModal(true);
+        // setDeleteErrorMessage(error.message);
+        // setShowDeleteErrorModal(true);
+        toast.error(error.message);
       });
   };
+
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
@@ -142,6 +166,7 @@ const ItemsTable = () => {
           onClose={handleCloseForm}
           onRefresh={fetchData}
           onSuccess={handleSuccess}
+          rowData={data} 
         />
       ) : (
         <>
