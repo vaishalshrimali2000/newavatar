@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 // File: D:\newavatar_new\src\app\(dashboard)\layout.tsx
+=======
+// File: D:\newavtar_git\src\app\(dashboard)\layout.tsx
+>>>>>>> development
 import * as entry from '../../../../src/app/(dashboard)/layout.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
