@@ -130,7 +130,7 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const filteredData = data.filter(
     (item) =>
       item.UserTypeID.toString().includes(searchTerm) ||
-      item.UserTypeName.toLowerCase().includes(searchTerm.toLowerCase())
+      item.UTName.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const currentEntries = filteredData.slice((currentPage - 1) * entriesPerPage, currentPage * entriesPerPage);
@@ -143,7 +143,7 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL;
       {showForm ? (
         <ItemsCrudOperations
           isEditMode={isEditMode}
-          itemDetails={selectedItem || { UserTypeName: '', Description: '', SortOrder: '' }}
+          itemDetails={selectedItem || { UTName: '', SortOrder: '' }}
           onClose={handleCloseForm}
           onRefresh={fetchData}
           onSuccess={handleSuccess}
@@ -191,7 +191,6 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL;
                 <CTableRow>
                   <CTableHeaderCell style={{ textAlign: 'start' }}>Sr No</CTableHeaderCell>
                   <CTableHeaderCell style={{ textAlign: 'start' }}>User Type Name</CTableHeaderCell>
-                  <CTableHeaderCell style={{ textAlign: 'start' }}>Description</CTableHeaderCell>
                   <CTableHeaderCell style={{ textAlign: 'start' }}>Sort Order</CTableHeaderCell>
                   <CTableHeaderCell style={{ textAlign: 'start' }}>Actions</CTableHeaderCell>
                 </CTableRow>
@@ -200,8 +199,7 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL;
                 {currentEntries.map((item,idx) => (
                   <CTableRow key={item.UserTypeID}>
                     <CTableDataCell style={{ textAlign: 'start' }}>{currentPage - 1 <= 0 ? idx + 1 : (entriesPerPage * (currentPage - 1)) + (idx + 1)}</CTableDataCell>
-                    <CTableDataCell style={{ textAlign: 'start' }}>{item.UserTypeName}</CTableDataCell>
-                    <CTableDataCell style={{ textAlign: 'start' }}>{item.Description}</CTableDataCell>
+                    <CTableDataCell style={{ textAlign: 'start' }}>{item.UTName}</CTableDataCell>
                     <CTableDataCell style={{ textAlign: 'start' }}>{item.SortOrder}</CTableDataCell>
                     <CTableDataCell style={{ textAlign: 'start' }}>
                       <CButton color="black" onClick={() => handleOpenForm(item)}>

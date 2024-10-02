@@ -16,7 +16,7 @@ const ItemsCrudOperations = ({ isEditMode, itemDetails, onClose, onRefresh, rowD
   };
 
   const validateForm = () => {
-    return formDetails.UserTypeName && formDetails.Description && formDetails.SortOrder;
+    return formDetails.UTName && formDetails.SortOrder;
   };
 
   const handleSubmit = async () => {
@@ -29,12 +29,12 @@ const ItemsCrudOperations = ({ isEditMode, itemDetails, onClose, onRefresh, rowD
         let isDuplicate = 0;
         if (isEditMode) {
           const tmpEditData = rowData.filter((itm) => {
-            return itm.UserTypeID !== itemDetails.UserTypeID && itm.UserTypeName === formDetails.UserTypeName
+            return itm.UserTypeID !== itemDetails.UserTypeID && itm.UTName === formDetails.UTName
           });
           isDuplicate = tmpEditData?.length > 0 ? 1 : 0;
         } else {
           const tmpData = rowData.filter((itm) => {
-            return itm.UserTypeName === formDetails.UserTypeName
+            return itm.UTName === formDetails.UTName
           });
           isDuplicate = tmpData?.length > 0 ? 1 : 0;
         }
@@ -98,12 +98,12 @@ const ItemsCrudOperations = ({ isEditMode, itemDetails, onClose, onRefresh, rowD
       <CCardBody>
         <CRow className="mb-3">
           <CCol md={6}>
-            <CFormLabel htmlFor="UserTypeName">User Type Name:</CFormLabel>
+            <CFormLabel htmlFor="UTName">User Type Name:</CFormLabel>
             <CFormInput
               type="text"
-              id="UserTypeName"
-              name="UserTypeName"
-              value={formDetails.UserTypeName || ''}
+              id="UTName"
+              name="UTName"
+              value={formDetails.UTName || ''}
               onChange={handleChange}
               placeholder="Enter user type name"
             />
@@ -121,7 +121,7 @@ const ItemsCrudOperations = ({ isEditMode, itemDetails, onClose, onRefresh, rowD
           </CCol>
         </CRow>
 
-        <CRow className="mb-3">
+        {/* <CRow className="mb-3">
           <CCol md={6}>
             <CFormLabel htmlFor="Description">Description:</CFormLabel>
             <CFormTextarea
@@ -133,7 +133,7 @@ const ItemsCrudOperations = ({ isEditMode, itemDetails, onClose, onRefresh, rowD
               
             />
           </CCol>
-        </CRow>
+        </CRow> */}
 
         <div className="d-flex justify-content-end">
           <CButton color="secondary" className="me-2" onClick={onClose}>

@@ -1,9 +1,9 @@
 {
   "pages": {
-    "/(dashboard)/pokemons/Items/page": [
+    "/(dashboard)/pokemons/addform/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(dashboard)/pokemons/Items/page.js"
+      "static/chunks/app/(dashboard)/pokemons/addform/page.js"
     ],
     "/(dashboard)/layout": [
       "static/chunks/webpack.js",
@@ -16,15 +16,10 @@
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
-    "/(dashboard)/page": [
+    "/(dashboard)/frontform/listusertype/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(dashboard)/page.js"
-    ],
-    "/(dashboard)/frontform/listcity/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(dashboard)/frontform/listcity/page.js"
+      "static/chunks/app/(dashboard)/frontform/listusertype/page.js"
     ],
     "/(dashboard)/frontform/listcolor/page": [
       "static/chunks/webpack.js",
@@ -36,15 +31,15 @@
       "static/chunks/main-app.js",
       "static/chunks/app/(dashboard)/pokemons/apptutorial/page.js"
     ],
+    "/(dashboard)/frontform/listcart/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(dashboard)/frontform/listcart/page.js"
+    ],
     "/(dashboard)/frontform/listcollection/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/(dashboard)/frontform/listcollection/page.js"
-    ],
-    "/(dashboard)/pokemons/addleadsorce/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(dashboard)/pokemons/addleadsorce/page.js"
     ]
   }
 }

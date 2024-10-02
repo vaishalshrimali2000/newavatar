@@ -1,4 +1,4 @@
-// File: D:\newavtar_git\src\app\(dashboard)\frontform\listcollection\page.tsx
+// File: D:\newavatar_project_new\src\app\(dashboard)\frontform\listcollection\page.tsx
 import * as entry from '../../../../../../src/app/(dashboard)/frontform/listcollection/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
