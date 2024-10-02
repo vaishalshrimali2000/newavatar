@@ -1,7 +1,0 @@
-{
-  "/(dashboard)/frontform/listcolor/page": "app/(dashboard)/frontform/listcolor/page.js",
-  "/(dashboard)/pokemons/apptutorial/page": "app/(dashboard)/pokemons/apptutorial/page.js",
-  "/(dashboard)/frontform/listcollection/page": "app/(dashboard)/frontform/listcollection/page.js",
-  "/(dashboard)/pokemons/addleadsorce/page": "app/(dashboard)/pokemons/addleadsorce/page.js",
-  "/(dashboard)/frontform/listcity/page": "app/(dashboard)/frontform/listcity/page.js"
-}
