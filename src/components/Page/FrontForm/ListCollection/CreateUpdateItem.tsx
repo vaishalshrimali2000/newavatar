@@ -80,7 +80,7 @@ const ItemsCrudOperations = ({ isEditMode, itemDetails, onClose, onRefresh, rowD
         setFormDetails(response.data[0]); // Assuming response.data is an array of zones
         
       } catch (error) {
-        //toast.error('Failed to fetch zones');
+        toast.error('Failed to fetch zones');
         //setErrorMessage('Failed to fetch zones');
         setFormDetails(itemDetails);
       }

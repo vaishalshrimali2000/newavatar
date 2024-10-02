@@ -1,6 +1,8 @@
 {
-  "/(dashboard)/frontform/listcolor/page": "app/(dashboard)/frontform/listcolor/page.js",
   "/(dashboard)/frontform/listusertype/page": "app/(dashboard)/frontform/listusertype/page.js",
-  "/(dashboard)/frontform/listcart/page": "app/(dashboard)/frontform/listcart/page.js",
-  "/(dashboard)/frontform/listcollection/page": "app/(dashboard)/frontform/listcollection/page.js"
+  "/(dashboard)/frontform/listcollection/page": "app/(dashboard)/frontform/listcollection/page.js",
+  "/(dashboard)/frontform/listarea/page": "app/(dashboard)/frontform/listarea/page.js",
+  "/(dashboard)/frontform/listcolor/page": "app/(dashboard)/frontform/listcolor/page.js",
+  "/(dashboard)/pokemons/Items/page": "app/(dashboard)/pokemons/Items/page.js",
+  "/(dashboard)/frontform/listcity/page": "app/(dashboard)/frontform/listcity/page.js"
 }
