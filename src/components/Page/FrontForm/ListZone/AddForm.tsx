@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 // import './App.css'; // Ensure your CSS file is correctly imported
 import Config from '../../../../../config/config.json';
+import { toast } from 'react-toastify';
 import {
   CButton,
   CCard,
@@ -37,12 +38,12 @@ export default function ItemsTable() {
   const [selectedRows, setSelectedRows] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
-
-  const apiUrl = Config._SERVER_URL+'getzones'; // Ensure this URL is correct
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  // const apiUrl = Config._SERVER_URL+'getzones'; // Ensure this URL is correct
 
   const fetchData = () => {
     setLoading(true);
-    axios.get(apiUrl)
+    axios.get(`${apiUrl}/getzones`)
       .then(response => {
         if (response.headers['content-type'].includes('application/json')) {
           setData(response.data);
@@ -108,7 +109,7 @@ export default function ItemsTable() {
 
   const handleSubmit = () => {
     if (selectedItem) {
-      axios.post(Config._SERVER_URL+'editzone', itemDetails)
+      axios.post(`${apiUrl}/editzone`, itemDetails)
         .then(() => {
           fetchData(); // Re-fetch data after update
           handleCloseModal();
@@ -126,7 +127,7 @@ export default function ItemsTable() {
     };
     console.log(payload);
 
-    axios.post(Config._SERVER_URL+'disablezone', payload, {
+    axios.post(`${apiUrl}/disablezone`, payload, {
       headers: {
         'Content-Type': 'application/json'
       }
@@ -135,7 +136,7 @@ export default function ItemsTable() {
         fetchData(); // Re-fetch data after delete
       })
       .catch(error => {
-        console.error('Delete Error:', error.response ? error.response.data : error.message);
+       toast.error('Delete Error:', error.response ? error.response.data : error.message);
       });
   };
 
