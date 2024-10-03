@@ -10,7 +10,7 @@ export default async function Page() {
     <Card>
      {/*  <CardHeader style={{backgroundColor:"#040430" ,color:"white"}}> </CardHeader>
       <CardBody> */}
-        {/* <Team /> */}
+        <Team />
       {/* </CardBody>*/}
     </Card> 
     </>
