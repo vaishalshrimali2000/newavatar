@@ -13,9 +13,9 @@ export default function Header() {
         <img
           src="/assets/brand/Kisana_New02.png"
           alt="Full Logo"
-          width="255"
+          width="260"
           height="70"
-          style={{ margin: '0 auto' }}
+          style={{ margin: '0 auto',position:'fixed',marginLeft:'250px' }}
         />
       </div>
       {/* <header style={{ flexGrow: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
@@ -25,7 +25,7 @@ export default function Header() {
     </header>
     <HeaderProfileNav />
     <HeaderNotificationNav /> */}
-      <div style={{display: 'flex', flexDirection: 'column', width: '100%'}}>
+      <div style={{display: 'flex', flexDirection: 'column', width: '100%',marginLeft:'270px'}}>
         <Container fluid className="header-navbar d-flex align-items-center px-0">
           <div className='header header-sticky shadow-sm' style={{ display: 'flex', flexDirection: 'row', width: '100%', padding: '7px' }}>
             <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>

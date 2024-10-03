@@ -12,13 +12,15 @@ import {
   CCard,
   CCardHeader,
   CModal,
+  CModalBody,
   CModalHeader,
   CModalTitle,
-  CModalBody,
-  CModalFooter,
+  CModalFooter
+  
 } from '@coreui/react';
 import { FaEdit, FaPlus, FaTrash } from 'react-icons/fa';
 import ItemsCrudOperations from './CreateUpdateItem'; // Ensure this component is implemented
+import { toast } from 'react-toastify'; // Import toast
 
 const ItemsTable = () => {
   const [data, setData] = useState([]);
@@ -32,10 +34,6 @@ const ItemsTable = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [itemToDelete, setItemToDelete] = useState(null);
-  const [showDeleteSuccessModal, setShowDeleteSuccessModal] = useState(false);
-  const [showDeleteErrorModal, setShowDeleteErrorModal] = useState(false);
-  const [deleteErrorMessage, setDeleteErrorMessage] = useState('');
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const apiUrl = 'http://192.168.168.133:90/mst/getdistrict'; // Your API URL
 
@@ -55,7 +53,10 @@ const ItemsTable = () => {
           throw new Error('Unexpected response format');
         }
       })
-      .catch((error) => setError(error))
+      .catch((error) => {
+        setError(error);
+        toast.error('Error fetching data: ' + error.message); // Error toast
+      })
       .finally(() => setLoading(false));
   };
 
@@ -84,16 +85,10 @@ const ItemsTable = () => {
       .then(() => {
         fetchData();
         setShowDeleteConfirm(false);
-        setShowDeleteSuccessModal(true);
-
-        // Close the success modal after 1 second
-        setTimeout(() => {
-          setShowDeleteSuccessModal(false);
-        }, 1000);
+        toast.success('Item deleted successfully!'); // Success toast
       })
       .catch((error) => {
-        setDeleteErrorMessage(error.message);
-        setShowDeleteErrorModal(true);
+        toast.error('Failed to delete item: ' + error.message); // Error toast
       });
   };
 
@@ -101,13 +96,8 @@ const ItemsTable = () => {
     setSearchTerm(e.target.value);
   };
 
-  const handleSuccess = () => {
-    setShowSuccessModal(true);
-  };
-
   // Pagination logic
   const totalPages = Math.ceil(data.length / entriesPerPage);
-  const pageNumbers = Array.from({ length: totalPages }, (_, index) => index + 1);
 
   const goToPreviousPage = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
@@ -115,10 +105,6 @@ const ItemsTable = () => {
 
   const goToNextPage = () => {
     if (currentPage < totalPages) setCurrentPage(currentPage + 1);
-  };
-
-  const handlePageClick = (pageNumber) => {
-    setCurrentPage(pageNumber);
   };
 
   // Filter data based on search term
@@ -141,7 +127,10 @@ const ItemsTable = () => {
           itemDetails={selectedItem || { DistrictName: '', Description: '', SortOrder: '' }}
           onClose={handleCloseForm}
           onRefresh={fetchData}
-          onSuccess={handleSuccess}
+          rowData={data}
+          onSuccess={() => {
+            toast.success(isEditMode ? 'Item successfully updated!' : 'Item successfully created!'); // Success toast
+          }}
         />
       ) : (
         <>
@@ -171,7 +160,7 @@ const ItemsTable = () => {
               />
               <CButton
                 color="primary"
-                onClick={() => handleOpenForm()} // Assuming you're opening the form here
+                onClick={() => handleOpenForm()} // Open the form
                 style={{ fontSize: '0.80rem', height: '32px', display: 'flex', alignItems: 'center', padding: '0 10px' }}
               >
                 <FaPlus style={{ marginRight: '5px' }} />
@@ -241,12 +230,10 @@ const ItemsTable = () => {
               Next
             </CButton>
           </div>
-
-
         </>
       )}
 
-      {/* Confirmation and Success Modals */}
+      {/* Confirmation Dialog */}
       <CModal visible={showDeleteConfirm} onClose={() => setShowDeleteConfirm(false)}>
         <CModalHeader onClose={() => setShowDeleteConfirm(false)}>
           <CModalTitle>Confirm Delete</CModalTitle>
@@ -260,51 +247,6 @@ const ItemsTable = () => {
           </CButton>
           <CButton color="secondary" onClick={() => setShowDeleteConfirm(false)}>
             Cancel
-          </CButton>
-        </CModalFooter>
-      </CModal>
-
-      {/* Success Modal for Delete */}
-      <CModal visible={showDeleteSuccessModal} onClose={() => setShowDeleteSuccessModal(false)}>
-        <CModalHeader onClose={() => setShowDeleteSuccessModal(false)}>
-          <CModalTitle>Success</CModalTitle>
-        </CModalHeader>
-        <CModalBody>
-          <p>Item deleted successfully!</p>
-        </CModalBody>
-        <CModalFooter>
-          <CButton color="primary" onClick={() => setShowDeleteSuccessModal(false)}>
-            OK
-          </CButton>
-        </CModalFooter>
-      </CModal>
-
-      {/* Error Modal for Delete */}
-      <CModal visible={showDeleteErrorModal} onClose={() => setShowDeleteErrorModal(false)}>
-        <CModalHeader onClose={() => setShowDeleteErrorModal(false)}>
-          <CModalTitle>Error</CModalTitle>
-        </CModalHeader>
-        <CModalBody>
-          <p>{deleteErrorMessage}</p>
-        </CModalBody>
-        <CModalFooter>
-          <CButton color="primary" onClick={() => setShowDeleteErrorModal(false)}>
-            OK
-          </CButton>
-        </CModalFooter>
-      </CModal>
-
-      {/* Success Modal for Item Creation/Update */}
-      <CModal visible={showSuccessModal} onClose={() => setShowSuccessModal(false)}>
-        <CModalHeader onClose={() => setShowSuccessModal(false)}>
-          <CModalTitle>Success</CModalTitle>
-        </CModalHeader>
-        <CModalBody>
-          {isEditMode ? 'Item successfully updated!' : 'Item successfully created!'}
-        </CModalBody>
-        <CModalFooter>
-          <CButton color="primary" onClick={() => setShowSuccessModal(false)}>
-            OK
           </CButton>
         </CModalFooter>
       </CModal>
