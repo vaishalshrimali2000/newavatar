@@ -98,17 +98,10 @@ const ItemsCrudOperations = ({ isEditMode, itemDetails, onClose, onRefresh,rowDa
         setShowErrorModal(true);
       }
     };
-<<<<<<< HEAD
     
       fetchDistricts();
     
   }, [isEditMode]);
-=======
-   
-      fetchDistricts();
-    
-  }, []);
->>>>>>> development
 
   useEffect(() => {
     const fetchZones = async () => {
