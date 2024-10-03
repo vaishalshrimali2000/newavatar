@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { CButton, CFormLabel, CFormInput, CCard, CCardBody, CCardHeader, CModal, CModalBody, CModalHeader, CModalTitle, CModalFooter, CFormTextarea, CRow, CCol } from '@coreui/react';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
-const ItemsCrudOperations = ({ isEditMode, itemDetails, onClose, onRefresh }) => {
+const ItemsCrudOperations = ({ isEditMode, itemDetails, onClose, onRefresh, rowData }) => {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -23,27 +24,65 @@ const ItemsCrudOperations = ({ isEditMode, itemDetails, onClose, onRefresh }) =>
         ? 'http://192.168.168.133:90/mst/editcolor'
         : 'http://192.168.168.133:90/mst/addcolor';
 
-      try {
-        const response = await axios.post(url, formDetails, {
-          headers: { 'Content-Type': 'application/json' },
-        });
+      // try {
+      //   const response = await axios.post(url, formDetails, {
+      //     headers: { 'Content-Type': 'application/json' },
+      //   });
 
-        if (response.status >= 200 && response.status < 300) {
-          setShowSuccessModal(true);
-          setTimeout(() => {
-            onRefresh();
-            onClose();
-          }, 1000);
+      //   if (response.status >= 200 && response.status < 300) {
+      //     setShowSuccessModal(true);
+      //     setTimeout(() => {
+      //       onRefresh();
+      //       onClose();
+      //     }, 1000);
+      //   } else {
+      //     throw new Error('Failed to submit');
+      //   }
+      // } catch (error) {
+      //   setErrorMessage(error.response?.data?.message || error.message);
+      //   setShowErrorModal(true);
+      // }
+      try {
+        let isDuplicate = 0;
+        if (isEditMode) {
+          const tmpEditData = rowData.filter((itm) => {
+            return itm.ColorID !== itemDetails.ColorID && itm.ColorName === formDetails.ColorName
+          });
+          isDuplicate = tmpEditData?.length > 0 ? 1 : 0;
         } else {
-          throw new Error('Failed to submit');
+          const tmpData = rowData.filter((itm) => {
+            return itm.ColorName === formDetails.ColorName
+          });
+          isDuplicate = tmpData?.length > 0 ? 1 : 0;
+        }
+        if (isDuplicate === 1) {
+          toast.error("Color name already exists!");
+        } else {
+          const response = await axios.post(url, formDetails, {
+            headers: { 'Content-Type': 'application/json' },
+          });
+
+          if (response.status >= 200 && response.status < 300) {
+            // setShowSuccessModal(true);
+            toast.success(isEditMode ? 'Color successfully updated!' : 'Color successfully created!');
+            setTimeout(() => {
+              onRefresh();
+              onClose();
+            }, 1000);
+          } else {
+            throw new Error('Failed to submit');
+          }
         }
       } catch (error) {
-        setErrorMessage(error.response?.data?.message || error.message);
-        setShowErrorModal(true);
+        // setErrorMessage(error.response?.data?.message || error.message);
+        // setShowErrorModal(true);
+        // @ts-ignore
+        toast.error(error.response?.data?.message || error.message);
       }
     } else {
-      setErrorMessage('Please fill all fields');
-      setShowErrorModal(true);
+      // setErrorMessage('Please fill all fields');
+      // setShowErrorModal(true);
+      toast.error("Please fill all required field!");
     }
   };
 
