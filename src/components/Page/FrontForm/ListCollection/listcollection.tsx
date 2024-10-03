@@ -19,6 +19,7 @@ import {
 } from '@coreui/react';
 import { FaEdit, FaPlus, FaTrash } from 'react-icons/fa';
 import ItemsCrudOperations from './CreateUpdateItem'; // Ensure this component is implemented
+import { toast } from 'react-toastify';
 
 const ItemsTable = () => {
   const [data, setData] = useState([]);
@@ -37,7 +38,8 @@ const ItemsTable = () => {
   const [deleteErrorMessage, setDeleteErrorMessage] = useState('');
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
-  const apiUrl = 'http://192.168.168.133:90/mst/getcollections'; // Your API URL
+  // const apiUrl = 'http://192.168.168.133:90/mst/getcollections'; // Your API URL
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
   // Fetch data when component mounts
   useEffect(() => {
@@ -47,7 +49,7 @@ const ItemsTable = () => {
   const fetchData = () => {
     setLoading(true);
     axios
-      .get(apiUrl)
+      .get(`${apiUrl}/getcollections`)
       .then((response) => {
         if (response.headers['content-type'].includes('application/json')) {
           setData(response.data);
@@ -77,23 +79,25 @@ const ItemsTable = () => {
 
   const handleDelete = () => {
     axios
-      .post('http://192.168.168.133:90/mst/disablecollection', {
+      .post(`${apiUrl}/disablecollection`, {
         CollectionID: itemToDelete.CollectionID,
         UpdatedBy: itemToDelete.UpdatedBy,
       })
       .then(() => {
         fetchData();
         setShowDeleteConfirm(false);
-        setShowDeleteSuccessModal(true);
+        // setShowDeleteSuccessModal(true);
         
-        // Close the success modal after 1 second
-        setTimeout(() => {
-          setShowDeleteSuccessModal(false);
-        }, 1000);
+        // // Close the success modal after 1 second
+        // setTimeout(() => {
+        //   setShowDeleteSuccessModal(false);
+        // }, 1000);
+        toast.success("Collection deleted successfully!");
       })
       .catch((error) => {
-        setDeleteErrorMessage(error.message);
-        setShowDeleteErrorModal(true);
+        // setDeleteErrorMessage(error.message);
+        // setShowDeleteErrorModal(true);
+        toast.error(error.message);
       });
   };
 
@@ -138,10 +142,11 @@ const ItemsTable = () => {
       {showForm ? (
         <ItemsCrudOperations
           isEditMode={isEditMode}
-          itemDetails={selectedItem || { CollectionName: '', Description: '', SortOrder: '' }}
+          itemDetails={selectedItem || { CollectionName: '', Description: ''}}
           onClose={handleCloseForm}
           onRefresh={fetchData}
           onSuccess={handleSuccess}
+          rowData={data}
         />
       ) : (
         <>
@@ -183,20 +188,18 @@ const ItemsTable = () => {
             <CTable>
               <CTableHead style={{ backgroundColor: '#DEDDF7' }}>
                 <CTableRow>
-                  <CTableHeaderCell style={{ textAlign: 'start' }}>ID</CTableHeaderCell>
+                  <CTableHeaderCell style={{ textAlign: 'start' }}>Sr No</CTableHeaderCell>
                   <CTableHeaderCell style={{ textAlign: 'start' }}>Collection Name</CTableHeaderCell>
                   <CTableHeaderCell style={{ textAlign: 'start' }}>Description</CTableHeaderCell>
-                  <CTableHeaderCell style={{ textAlign: 'start' }}>Sort Order</CTableHeaderCell>
                   <CTableHeaderCell style={{ textAlign: 'start' }}>Actions</CTableHeaderCell>
                 </CTableRow>
               </CTableHead>
               <CTableBody>
-                {currentEntries.map((item) => (
+                {currentEntries.map((item,idx) => (
                   <CTableRow key={item.CollectionID}>
-                    <CTableDataCell style={{ textAlign: 'start' }}>{item.CollectionID}</CTableDataCell>
+                    <CTableDataCell style={{ textAlign: 'start' }}>{currentPage - 1 <= 0 ? idx + 1 : (entriesPerPage * (currentPage - 1)) + (idx + 1)}</CTableDataCell>
                     <CTableDataCell style={{ textAlign: 'start' }}>{item.CollectionName}</CTableDataCell>
                     <CTableDataCell style={{ textAlign: 'start' }}>{item.Description}</CTableDataCell>
-                    <CTableDataCell style={{ textAlign: 'start' }}>{item.SortOrder}</CTableDataCell>
                     <CTableDataCell style={{ textAlign: 'start' }}>
                       <CButton color="black" onClick={() => handleOpenForm(item)}>
                         <FaEdit />
