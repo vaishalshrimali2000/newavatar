@@ -16,7 +16,6 @@ import {
   CModalHeader,
   CModalTitle,
   CModalFooter
-  
 } from '@coreui/react';
 import { FaEdit, FaPlus, FaTrash } from 'react-icons/fa';
 import ItemsCrudOperations from './CreateUpdateItem'; // Ensure this component is implemented
