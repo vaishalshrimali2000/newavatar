@@ -38,7 +38,7 @@ const ItemsTable = () => {
   const [deleteErrorMessage, setDeleteErrorMessage] = useState('');
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
-  const apiUrl = 'http://192.168.168.133:90/mst/getareas'; // Your API URL
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
   // Fetch data when component mounts
   useEffect(() => {
@@ -48,7 +48,7 @@ const ItemsTable = () => {
   const fetchData = () => {
     setLoading(true);
     axios
-      .get(apiUrl)
+      .get(`${apiUrl}/getareas`)
       .then((response) => {
         if (response.headers['content-type'].includes('application/json')) {
           setData(response.data);
@@ -78,7 +78,7 @@ const ItemsTable = () => {
 
   const handleDelete = () => {
     axios
-      .post('http://192.168.168.133:90/mst/disablearea', {
+      .post(`${apiUrl}/disablearea`, {
         AreaID: itemToDelete.AreaID,
         UpdatedBy: itemToDelete.UpdatedBy,
       })
