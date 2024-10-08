@@ -51,10 +51,17 @@ export default async function SidebarNav() {
       <SidebarNavItem href="/pokemons/addform">Cad Designer</SidebarNavItem>
       <SidebarNavItem href="/frontform/listcart">Cart Days</SidebarNavItem>
       <SidebarNavItem href="/pokemons/apptutorial">Category</SidebarNavItem>
+      <SidebarNavItem href="/frontform/listsubcategory">Sub Category</SidebarNavItem>
+      <SidebarNavItem href="/frontform/listcourier">Courier</SidebarNavItem>
+      <SidebarNavItem href="/frontform/listitemdays">Item Days</SidebarNavItem>
+      <SidebarNavItem href="/frontform/liststoneequality">Stone Equality</SidebarNavItem>
+      <SidebarNavItem href="/frontform/liststarcolor">Star Color</SidebarNavItem>
+      <SidebarNavItem href="/frontform/listpptags">pptags</SidebarNavItem>
+      <SidebarNavItem href="/frontform/liststoneshape">Stone Shape</SidebarNavItem>
       <SidebarNavItem href="/frontform/listcollection">Collection</SidebarNavItem>
       <SidebarNavItem href="/frontform/listcolor">Color</SidebarNavItem>
       <SidebarNavItem href="/frontform/listusertype">User Type</SidebarNavItem>
-
+      <SidebarNavItem href="/frontform/listemailsubjects">Emailsubjects</SidebarNavItem>
 
 
 
