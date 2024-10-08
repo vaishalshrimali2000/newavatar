@@ -72,7 +72,7 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL;
     setSelectedItem(null);
   };
 
-  const handleDeleteConfirm = (item) => {
+  const handleDeleteConfirm = (item: any) => {
     setItemToDelete(item);
     setShowDeleteConfirm(true);
   };
