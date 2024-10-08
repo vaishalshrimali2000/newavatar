@@ -54,6 +54,8 @@ export default async function SidebarNav() {
       <SidebarNavItem href="/frontform/listcollection">Collection</SidebarNavItem>
       <SidebarNavItem href="/frontform/listcolor">Color</SidebarNavItem>
       <SidebarNavItem href="/frontform/listusertype">User Type</SidebarNavItem>
+      <SidebarNavItem href="/pokemons/Items">Items</SidebarNavItem>
+      <SidebarNavItem href="/frontform/listemail">Email</SidebarNavItem>
 
 
 
