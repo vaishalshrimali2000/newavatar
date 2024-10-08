@@ -1,65 +1,30 @@
 {
   "pages": {
-    "/layout": [
+    "/(dashboard)/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/css/app/layout.css",
-      "static/chunks/app/layout.js"
-    ],
-    "/(dashboard)/frontform/listcart/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(dashboard)/frontform/listcart/page.js"
+      "static/chunks/app/(dashboard)/page.js"
     ],
     "/(dashboard)/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/(dashboard)/layout.js"
     ],
-    "/(dashboard)/page": [
+    "/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(dashboard)/page.js"
+      "static/css/app/layout.css",
+      "static/chunks/app/layout.js"
     ],
-    "/(dashboard)/frontform/listusertype/page": [
+    "/(dashboard)/frontform/listzone/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(dashboard)/frontform/listusertype/page.js"
+      "static/chunks/app/(dashboard)/frontform/listzone/page.js"
     ],
-    "/(dashboard)/frontform/listcolor/page": [
+    "/(dashboard)/pokemons/addleadsorce/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(dashboard)/frontform/listcolor/page.js"
-    ],
-    "/(dashboard)/frontform/listcollection/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(dashboard)/frontform/listcollection/page.js"
-    ],
-    "/(dashboard)/pokemons/apptutorial/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(dashboard)/pokemons/apptutorial/page.js"
-    ],
-    "/(dashboard)/pokemons/addform/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(dashboard)/pokemons/addform/page.js"
-    ],
-    "/(dashboard)/frontform/listarea/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(dashboard)/frontform/listarea/page.js"
-    ],
-    "/(dashboard)/pokemons/Items/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(dashboard)/pokemons/Items/page.js"
-    ],
-    "/(dashboard)/frontform/listcity/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(dashboard)/frontform/listcity/page.js"
+      "static/chunks/app/(dashboard)/pokemons/addleadsorce/page.js"
     ]
   }
 }
