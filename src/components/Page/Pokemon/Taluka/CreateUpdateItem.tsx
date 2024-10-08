@@ -1,14 +1,31 @@
 import React, { useState, useEffect } from 'react';
-import { CButton, CFormLabel, CFormInput, CCard, CCardBody, CCardHeader, CModal, CModalBody, CModalHeader, CModalTitle, CModalFooter, CFormTextarea, CRow, CCol, CFormSelect } from '@coreui/react';
+import { 
+  CButton, 
+  CFormLabel, 
+  CFormInput, 
+  CCard, 
+  CCardBody, 
+  CCardHeader, 
+  CModal, 
+  CModalBody, 
+  CModalHeader, 
+  CModalTitle, 
+  CModalFooter, 
+  CFormTextarea, 
+  CRow, 
+  CCol, 
+  CFormSelect 
+} from '@coreui/react';
 import axios from 'axios';
-
-const ItemsCrudOperations = ({ isEditMode, itemDetails, onClose, onRefresh }) => {
+import { toast } from 'react-toastify';
+ const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+const ItemsCrudOperations = ({ isEditMode, itemDetails, onClose, onRefresh,rowData }) => {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [formDetails, setFormDetails] = useState(itemDetails);
   const [districts, setDistricts] = useState([]); // State to hold district options
-
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormDetails((prev) => ({ ...prev, [name]: value }));
@@ -21,30 +38,50 @@ const ItemsCrudOperations = ({ isEditMode, itemDetails, onClose, onRefresh }) =>
   const handleSubmit = async () => {
     if (validateForm()) {
       const url = isEditMode
-        ? 'http://192.168.168.133:90/mst/edittaluka'
-        : 'http://192.168.168.133:90/mst/addtaluka';
+        ? `${apiUrl}/edittaluka`
+        : `${apiUrl}/addtaluka`;
 
       try {
-        const response = await axios.post(url, formDetails, {
-          headers: { 'Content-Type': 'application/json' },
-        });
-
-        if (response.status >= 200 && response.status < 300) {
-          setShowSuccessModal(true);
-          setTimeout(() => {
-            onRefresh();
-            onClose();
-          }, 1000);
+        let isDuplicate = 0;
+        if (isEditMode) {
+          const tmpEditData = rowData.filter((itm) => {
+            return itm.TalukaID !== itemDetails.TalukaID && itm.TalukaName === formDetails.TalukaName
+          });
+          isDuplicate = tmpEditData?.length > 0 ? 1 : 0;
         } else {
-          throw new Error('Failed to submit');
+          const tmpData = rowData.filter((itm) => {
+            return itm.TalukaName === formDetails.TalukaName
+          });
+          isDuplicate = tmpData?.length > 0 ? 1 : 0;
+        }
+        if (isDuplicate === 1) {
+          toast.error("Taluka name already exists!");
+        } else {
+          const response = await axios.post(url, formDetails, {
+            headers: { 'Content-Type': 'application/json' },
+          });
+
+          if (response.status >= 200 && response.status < 300) {
+            // setShowSuccessModal(true);
+            toast.success(isEditMode ? 'Taluka successfully updated!' : 'Taluka successfully created!');
+            setTimeout(() => {
+              onRefresh();
+              onClose();
+            }, 1000);
+          } else {
+            throw new Error('Failed to submit');
+          }
         }
       } catch (error) {
-        setErrorMessage(error.response?.data?.message || error.message);
-        setShowErrorModal(true);
+        // setErrorMessage(error.response?.data?.message || error.message);
+        // setShowErrorModal(true);
+        // @ts-ignore
+        toast.error(error.response?.data?.message || error.message);
       }
     } else {
-      setErrorMessage('Please fill all fields, including District.');
-      setShowErrorModal(true);
+      toast.error("Please fill all required field!");
+      // setErrorMessage('Please fill all fields');
+      // setShowErrorModal(true);
     }
   };
 
@@ -55,14 +92,16 @@ const ItemsCrudOperations = ({ isEditMode, itemDetails, onClose, onRefresh }) =>
         const response = await axios.get('http://192.168.168.133:90/mst/getdistrict'); // Replace with your actual API endpoint
         setDistricts(response.data); // Assuming response.data is an array of districts
       } catch (error) {
-        setErrorMessage('Failed to fetch districts');
+        const message = 'Failed to fetch districts';
+        setErrorMessage(message);
+        toast.error(message); // Error toast
         setShowErrorModal(true);
       }
     };
-   
+    
       fetchDistricts();
     
-  }, []);
+  }, [isEditMode]);
 
   useEffect(() => {
     const fetchZones = async () => {
@@ -73,13 +112,17 @@ const ItemsCrudOperations = ({ isEditMode, itemDetails, onClose, onRefresh }) =>
         setFormDetails(response.data); // Assuming response.data is an array of zones
         
       } catch (error) {
-        setErrorMessage('Failed to fetch zones');
+        // const message = 'Failed to fetch zones';
+        // setErrorMessage(message);
+        // toast.error(message); // Error toast
         setFormDetails(itemDetails);
       }
     };
 
-    fetchZones();
-  }, [isEditMode]);
+    if (isEditMode) {
+      fetchZones();
+    }
+  }, [isEditMode, itemDetails]);
 
   return (
     <CCard>

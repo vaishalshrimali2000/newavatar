@@ -233,7 +233,7 @@ const ItemsCrudOperations = ({ isEditMode, itemDetails, onClose, onRefresh,rowDa
           {isEditMode ? 'Item successfully updated!' : 'Item successfully created!'}
         </CModalBody>
         <CModalFooter>
-          <CButton color="primary" onClick={() => setShowSuccessModal(false)}>
+          <CButton color="primary"  onClick={() => setShowSuccessModal(false)}>
             OK
           </CButton>
         </CModalFooter>

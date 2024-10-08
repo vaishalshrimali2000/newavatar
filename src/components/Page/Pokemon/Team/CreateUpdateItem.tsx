@@ -1,13 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { CButton, CFormLabel, CFormInput, CCard, CCardBody, CCardHeader, CModal, CModalBody, CModalHeader, CModalTitle, CModalFooter, CFormTextarea, CRow, CCol, CFormSelect } from '@coreui/react';
+import {
+  CButton,
+  CFormLabel,
+  CFormInput,
+  CCard,
+  CCardBody,
+  CCardHeader,
+  CFormTextarea,
+  CRow,
+  CCol,
+  CFormSelect,
+} from '@coreui/react';
 import axios from 'axios';
+import { toast } from 'react-toastify'; // Import toast
 
-const ItemsCrudOperations = ({ isEditMode, itemDetails, onClose, onRefresh }) => {
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [showErrorModal, setShowErrorModal] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+const ItemsCrudOperations = ({ isEditMode, itemDetails, onClose, onRefresh, rowData }) => {
   const [formDetails, setFormDetails] = useState(itemDetails);
-  const [states, setStates] = useState([]); // State to hold states
+  const [states, setStates] = useState([]);
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -20,31 +30,39 @@ const ItemsCrudOperations = ({ isEditMode, itemDetails, onClose, onRefresh }) =>
 
   const handleSubmit = async () => {
     if (validateForm()) {
-      const url = isEditMode
-        ? 'http://192.168.168.133:90/mst/editdistrict'
-        : 'http://192.168.168.133:90/mst/adddistrict';
+      const url = isEditMode ? `${apiUrl}/editdistrict` : `${apiUrl}/adddistrict`;
 
       try {
-        const response = await axios.post(url, formDetails, {
-          headers: { 'Content-Type': 'application/json' },
-        });
+        let isDuplicate = false;
 
-        if (response.status >= 200 && response.status < 300) {
-          setShowSuccessModal(true);
-          setTimeout(() => {
-            onRefresh();
-            onClose();
-          }, 1000);
+        if (isEditMode) {
+          isDuplicate = rowData.some((itm) => itm.DistrictID !== itemDetails.DistrictID && itm.DistrictName === formDetails.DistrictName);
         } else {
-          throw new Error('Failed to submit');
+          isDuplicate = rowData.some((itm) => itm.DistrictName === formDetails.DistrictName);
+        }
+
+        if (isDuplicate) {
+          toast.error("District name already exists!");
+        } else {
+          const response = await axios.post(url, formDetails, {
+            headers: { 'Content-Type': 'application/json' },
+          });
+
+          if (response.status >= 200 && response.status < 300) {
+            toast.success(isEditMode ? 'District successfully updated!' : 'District successfully created!');
+            setTimeout(() => {
+              onRefresh();
+              onClose();
+            }, 1000);
+          } else {
+            throw new Error('Failed to submit');
+          }
         }
       } catch (error) {
-        setErrorMessage(error.response?.data?.message || error.message);
-        setShowErrorModal(true);
+        toast.error(error.response?.data?.message || error.message);
       }
     } else {
-      setErrorMessage('Please fill all fields, including State.');
-      setShowErrorModal(true);
+      toast.error("Please fill all required fields!");
     }
   };
 
@@ -52,36 +70,31 @@ const ItemsCrudOperations = ({ isEditMode, itemDetails, onClose, onRefresh }) =>
   useEffect(() => {
     const fetchStates = async () => {
       try {
-        const response = await axios.get('http://192.168.168.133:90/mst/getstates'); // Replace with your actual API endpoint
-        setStates(response.data); // Assuming response.data is an array of states
+        const response = await axios.get(`${apiUrl}/getstates`); // Update with your actual API endpoint
+        setStates(response.data);
       } catch (error) {
-        setErrorMessage('Failed to fetch states');
-        setShowErrorModal(true);
+        toast.error('Failed to fetch states');
       }
     };
 
     fetchStates();
-  }, []);
+  }, [apiUrl]);
 
   useEffect(() => {
     const fetchZones = async () => {
-      try {
-        var url = 'http://192.168.168.133:90/mst/searchdistrict/' + itemDetails.DistrictID;
-        const response = await axios.get(url); // Replace with your API endpoint
-      
-        setFormDetails(response.data[0]); // Assuming response.data is an array of zones
-        
-      } catch (error) {
-        setErrorMessage('Failed to fetch zones');
-        console.log("itemDetailsitemDetailsitemDetails : " + JSON.stringify(itemDetails));
-        
-        setFormDetails(itemDetails);
+      if (isEditMode) {
+        try {
+          const url = `${apiUrl}/searchdistrict/${itemDetails.DistrictID}`;
+          const response = await axios.get(url);
+          setFormDetails(response.data[0]); // Assuming response.data is an array of zones
+        } catch (error) {
+          setFormDetails(itemDetails);
+        }
       }
     };
-    if (isEditMode) {
-      fetchZones();
-    }
-  }, [isEditMode]);
+
+    fetchZones();
+  }, [isEditMode, apiUrl, itemDetails]);
 
   return (
     <CCard>
@@ -153,34 +166,6 @@ const ItemsCrudOperations = ({ isEditMode, itemDetails, onClose, onRefresh }) =>
           </CButton>
         </div>
       </CCardBody>
-
-      {/* Success Modal */}
-      <CModal visible={showSuccessModal} onClose={() => setShowSuccessModal(false)}>
-        <CModalHeader onClose={() => setShowSuccessModal(false)}>
-          <CModalTitle>Success</CModalTitle>
-        </CModalHeader>
-        <CModalBody>
-          {isEditMode ? 'Item successfully updated!' : 'Item successfully created!'}
-        </CModalBody>
-        <CModalFooter>
-          <CButton color="primary" onClick={() => setShowSuccessModal(false)}>
-            OK
-          </CButton>
-        </CModalFooter>
-      </CModal>
-
-      {/* Error Modal */}
-      <CModal visible={showErrorModal} onClose={() => setShowErrorModal(false)}>
-        <CModalHeader onClose={() => setShowErrorModal(false)}>
-          <CModalTitle>Error</CModalTitle>
-        </CModalHeader>
-        <CModalBody>{errorMessage}</CModalBody>
-        <CModalFooter>
-          <CButton color="danger" onClick={() => setShowErrorModal(false)}>
-            Close
-          </CButton>
-        </CModalFooter>
-      </CModal>
     </CCard>
   );
 };

@@ -19,6 +19,7 @@ import {
 } from '@coreui/react';
 import { FaEdit, FaPlus, FaTrash } from 'react-icons/fa';
 import ItemsCrudOperations from './CreateUpdateItem'; // Ensure this component is implemented
+import { toast } from 'react-toastify';
 
 const ItemsTable = () => {
   const [data, setData] = useState([]);
@@ -84,16 +85,18 @@ const ItemsTable = () => {
       .then(() => {
         fetchData();
         setShowDeleteConfirm(false);
-        setShowDeleteSuccessModal(true);
+        // setShowDeleteSuccessModal(true);
         
-        // Close the success modal after 1 second
-        setTimeout(() => {
-          setShowDeleteSuccessModal(false);
-        }, 1000);
+        // // Close the success modal after 1 second
+        // setTimeout(() => {
+        //   setShowDeleteSuccessModal(false);
+        // }, 1000);
+        toast.success("Brand deleted successfully!");
       })
       .catch((error) => {
-        setDeleteErrorMessage(error.message);
-        setShowDeleteErrorModal(true);
+        // setDeleteErrorMessage(error.message);
+        // setShowDeleteErrorModal(true);
+        toast.error(error.message);
       });
   };
 
@@ -142,6 +145,7 @@ const ItemsTable = () => {
           onClose={handleCloseForm}
           onRefresh={fetchData}
           onSuccess={handleSuccess}
+          rowData={data}
         />
       ) : (
         <>
