@@ -227,7 +227,7 @@ const ItemsTable = () => {
               <CTableHead style={{ backgroundColor: "#DEDDF7" }}>
                 <CTableRow>
                   <CTableHeaderCell style={{ textAlign: "start" }}>
-                    ID
+                  Sr No
                   </CTableHeaderCell>
                   <CTableHeaderCell style={{ textAlign: "start" }}>
                     State Name

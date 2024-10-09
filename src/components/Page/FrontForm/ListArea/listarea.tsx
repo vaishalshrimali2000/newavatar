@@ -180,7 +180,7 @@ const ItemsTable = () => {
             <CTable>
               <CTableHead style={{ backgroundColor: '#DEDDF7' }}>
                 <CTableRow>
-                  <CTableHeaderCell style={{ textAlign: 'start' }}>ID</CTableHeaderCell>
+                  <CTableHeaderCell style={{ textAlign: 'start' }}>Sr No</CTableHeaderCell>
                   <CTableHeaderCell style={{ textAlign: 'start' }}>Area Name</CTableHeaderCell>
                   <CTableHeaderCell style={{ textAlign: 'start' }}>Description</CTableHeaderCell>
                   <CTableHeaderCell style={{ textAlign: 'start' }}>Sort Order</CTableHeaderCell>
