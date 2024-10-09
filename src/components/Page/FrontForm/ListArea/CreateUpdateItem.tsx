@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import {
-  CButton,
-  CFormLabel,
-  CFormInput,
-  CCard,
-  CCardBody,
-  CCardHeader,
-  CModal,
-  CModalBody,
-  CModalHeader,
-  CModalTitle,
-  CModalFooter,
-  CFormTextarea,
-  CRow,
-  CCol,
-  CFormSelect,
+    CButton,
+    CFormLabel,
+    CFormInput,
+    CCard,
+    CCardBody,
+    CCardHeader,
+    CModal,
+    CModalBody,
+    CModalHeader,
+    CModalTitle,
+    CModalFooter,
+    CFormTextarea,
+    CRow,
+    CCol,
+    CFormSelect,
 } from '@coreui/react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -90,18 +90,18 @@ const ItemsCrudOperations = ({ isEditMode, itemDetails, onClose, onRefresh, rowD
     }
     // console.log(rowData);
   };
-  useEffect(() => {
-    const fetchCities = async () => {
-      try {
-        const response = await axios.get(`${apiUrl}/getCity`); // Use apiUrl for fetching cities
-        setCities(response.data);
-      } catch (error) {
-        setErrorMessage('Failed to fetch cities');
-        setShowErrorModal(true);
-      }
-    };
-    fetchCities();
-  }, [apiUrl]);
+    useEffect(() => {
+      const fetchCities = async () => {
+        try {
+          const response = await axios.get(`${apiUrl}/getCity`); // Use apiUrl for fetching cities
+          setCities(response.data);
+        } catch (error) {
+          setErrorMessage('Failed to fetch cities');
+          setShowErrorModal(true);
+        }
+      };
+      fetchCities();
+    }, [apiUrl]);
 
   useEffect(() => {
     if (isEditMode) {

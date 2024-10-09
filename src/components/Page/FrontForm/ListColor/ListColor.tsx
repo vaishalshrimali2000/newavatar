@@ -190,7 +190,7 @@ const ItemsTable = () => {
                   <CTableHeaderCell style={{ textAlign: 'start' }}>ID</CTableHeaderCell>
                   <CTableHeaderCell style={{ textAlign: 'start' }}>Color Name</CTableHeaderCell>
                   <CTableHeaderCell style={{ textAlign: 'start' }}>Description</CTableHeaderCell>
-                  <CTableHeaderCell style={{ textAlign: 'start' }}>Sort Order</CTableHeaderCell>
+                  {/* <CTableHeaderCell style={{ textAlign: 'start' }}>Sort Order</CTableHeaderCell> */}
                   <CTableHeaderCell style={{ textAlign: 'start' }}>Actions</CTableHeaderCell>
                 </CTableRow>
               </CTableHead>
@@ -200,7 +200,7 @@ const ItemsTable = () => {
                     <CTableDataCell style={{ textAlign: 'start' }}>{item.ColorID}</CTableDataCell>
                     <CTableDataCell style={{ textAlign: 'start' }}>{item.ColorName}</CTableDataCell>
                     <CTableDataCell style={{ textAlign: 'start' }}>{item.Description}</CTableDataCell>
-                    <CTableDataCell style={{ textAlign: 'start' }}>{item.SortOrder}</CTableDataCell>
+                    {/* <CTableDataCell style={{ textAlign: 'start' }}>{item.SortOrder}</CTableDataCell> */}
                     <CTableDataCell style={{ textAlign: 'start' }}>
                       <CButton color="black" onClick={() => handleOpenForm(item)}>
                         <FaEdit />

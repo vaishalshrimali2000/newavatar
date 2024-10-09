@@ -36,7 +36,8 @@ const EmployeesTable = () => {
   const [showDeleteSuccessModal, setShowDeleteSuccessModal] = useState(false);
   const [showDeleteErrorModal, setShowDeleteErrorModal] = useState(false);
   const [deleteErrorMessage, setDeleteErrorMessage] = useState('');
-  const apiUrl = 'http://192.168.168.133:90/mst/getemaillist'; // New API URL
+//   const apiUrl = 'http://192.168.168.133:90/mst/getemaillist'; // New API URL
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
   // Fetch data when component mounts
   useEffect(() => {
@@ -46,7 +47,7 @@ const EmployeesTable = () => {
   const fetchData = () => {
     setLoading(true);
     axios
-      .get(apiUrl)
+      .get(`${apiUrl}/getemaillist`)
       .then((response) => {
         if (response.headers['content-type'].includes('application/json')) {
           setData(response.data);

@@ -185,7 +185,7 @@ const ItemsTable = () => {
                   <CTableHeaderCell style={{ textAlign: 'start' }}>Description</CTableHeaderCell>
                   <CTableHeaderCell style={{ textAlign: 'start' }}>Sort Order</CTableHeaderCell>
                   <CTableHeaderCell style={{ textAlign: 'start' }}>Actions</CTableHeaderCell>
-                </CTableRow>
+                </CTableRow>  
               </CTableHead>
               <CTableBody>
                 {currentEntries.map((item) => (
@@ -308,3 +308,7 @@ const ItemsTable = () => {
 };
 
 export default ItemsTable;
+
+
+
+
