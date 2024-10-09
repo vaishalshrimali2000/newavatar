@@ -79,8 +79,8 @@ const ItemsTable = () => {
   };
   const handleDelete = () => {
     axios
-      .post(`${apiUrl}/disablestate`, {
-        StateID: itemToDelete.StateID,
+      .post(`${apiUrl}/disableemailsubjects`, {
+        SubjectID: itemToDelete.SubjectID,
         UpdatedBy: itemToDelete.UpdatedBy,
       })
       .then((res) => {
@@ -227,7 +227,7 @@ const ItemsTable = () => {
               <CTableHead style={{ backgroundColor: "#DEDDF7" }}>
                 <CTableRow>
                   <CTableHeaderCell style={{ textAlign: "start" }}>
-                    ID
+                    Sr No
                   </CTableHeaderCell>
                   <CTableHeaderCell style={{ textAlign: "start" }}>
                    Subject Name
