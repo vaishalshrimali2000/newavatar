@@ -45,7 +45,6 @@ export default async function SidebarNav() {
       <SidebarNavItem href="/pokemons/taluka">Taluka</SidebarNavItem>
       <SidebarNavItem href="/frontform/listcity">City</SidebarNavItem>
       <SidebarNavItem href="/frontform/listarea">Area</SidebarNavItem>
-      
       <SidebarNavItem href="/pokemons/addleadsorce">Antique</SidebarNavItem>
       <SidebarNavItem href="/pokemons/Items">Brands</SidebarNavItem>
       <SidebarNavItem href="/pokemons/addform">Cad Designer</SidebarNavItem>
@@ -62,12 +61,6 @@ export default async function SidebarNav() {
       <SidebarNavItem href="/frontform/listcolor">Color</SidebarNavItem>
       <SidebarNavItem href="/frontform/listusertype">User Type</SidebarNavItem>
       <SidebarNavItem href="/frontform/listemailsubjects">Email subjects</SidebarNavItem>
-
-
-
-
-
-      
       </SidebarNavGroup>
 
     </ul>
