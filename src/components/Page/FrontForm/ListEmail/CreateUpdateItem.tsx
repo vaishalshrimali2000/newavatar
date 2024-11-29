@@ -16,30 +16,30 @@ const ItemsCrudOperations = ({ isEditMode, itemDetails, onClose, onRefresh, rowD
   };
 
   const validateForm = () => {
-    return formDetails.StarName && formDetails.SortOrder;
+    return formDetails.Email && formDetails.SortOrder;
   };
 
   const handleSubmit = async () => {
     if (validateForm()) {
       const url = isEditMode
-        ? `${apiUrl}/editstarcolor`
-        : `${apiUrl}/addstarcolor`;
+        ? `${apiUrl}/editemail`
+        : `${apiUrl}/addemail`;
 
       try {
         let isDuplicate = 0;
         if (isEditMode) {
           const tmpEditData = rowData.filter((itm) => {
-            return itm.StarColorID !== itemDetails.StarColorID && itm.StarName === formDetails.StarName
+            return itm.ID !== itemDetails.ID && itm.Email === formDetails.Email
           });
           isDuplicate = tmpEditData?.length > 0 ? 1 : 0;
         } else {
           const tmpData = rowData.filter((itm) => {
-            return itm.StarName === formDetails.StarName
+            return itm.Email === formDetails.Email
           });
           isDuplicate = tmpData?.length > 0 ? 1 : 0;
         }
         if (isDuplicate === 1) {
-          toast.error("Star color name already exists!");
+          toast.error("Email already exists!");
         } else {
           const response = await axios.post(url, formDetails, {
             headers: { 'Content-Type': 'application/json' },
@@ -47,7 +47,7 @@ const ItemsCrudOperations = ({ isEditMode, itemDetails, onClose, onRefresh, rowD
 
           if (response.status >= 200 && response.status < 300) {
             // setShowSuccessModal(true);
-            toast.success(isEditMode ? 'Star color successfully updated!' : 'Star color successfully created!');
+            toast.success(isEditMode ? 'Email successfully updated!' : 'Email successfully created!');
             setTimeout(() => {
               onRefresh();
               onClose();
@@ -72,9 +72,9 @@ const ItemsCrudOperations = ({ isEditMode, itemDetails, onClose, onRefresh, rowD
   useEffect(() => {
     const fetchZones = async () => {
       try {
-        console.log("UserType : " + JSON.stringify(itemDetails));
+        console.log("Email : " + JSON.stringify(itemDetails));
         
-        var url = `${apiUrl}/searchstarcolor/` + itemDetails.StarColorID;
+        var url = `${apiUrl}/searchEmail/` + itemDetails.ID;
         const response = await axios.get(url); // Replace with your API endpoint
       
         setFormDetails(response.data[0]); // Assuming response.data is an array of zones
@@ -93,19 +93,19 @@ const ItemsCrudOperations = ({ isEditMode, itemDetails, onClose, onRefresh, rowD
   return (
     <CCard>
       <CCardHeader style={{ backgroundColor: '#040430', color: 'white' }}>
-        <h5>{isEditMode ? 'Edit Star Color' : 'Add Star Color'}</h5>
+        <h5>{isEditMode ? 'Edit Email' : 'Add Email'}</h5>
       </CCardHeader>
       <CCardBody>
         <CRow className="mb-3">
           <CCol md={6}>
-            <CFormLabel htmlFor="StarName">Star Color Name:</CFormLabel>
+            <CFormLabel htmlFor="Email">Email:</CFormLabel>
             <CFormInput
               type="text"
-              id="StarName"
-              name="StarName"
-              value={formDetails.StarName || ''}
+              id="Email"
+              name="Email"
+              value={formDetails.Email || ''}
               onChange={handleChange}
-              placeholder="Enter star color name"
+              placeholder="Enter Email"
             />
           </CCol>
           <CCol md={6}>

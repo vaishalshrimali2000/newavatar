@@ -49,7 +49,7 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const fetchData = () => {
     setLoading(true);
     axios
-      .get(`${apiUrl}/getsubcategories`)
+      .get(`${apiUrl}/getstones`)
       .then((response) => {
         if (response.headers['content-type'].includes('application/json')) {
           setData(response.data);
@@ -79,8 +79,8 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
   const handleDelete = () => {
     axios
-      .post(`${apiUrl}/disableSubCategory`, {
-        SubCategoryID: itemToDelete.SubCategoryID,
+      .post(`${apiUrl}/disablestone`, {
+        StoneID: itemToDelete.StoneID,
         UpdatedBy: itemToDelete.UpdatedBy,
       })
       .then(() => {
@@ -92,7 +92,7 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL;
         // setTimeout(() => {
         //   setShowDeleteSuccessModal(false);
         // }, 1000);
-        toast.success("SubCategory deleted successfully!");
+        toast.success("Stone deleted successfully!");
 
       })
       .catch((error) => {
@@ -129,8 +129,8 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   // Filter data based on search term
   const filteredData = data.filter(
     (item) =>
-      item.SubCategoryID.toString().includes(searchTerm) ||
-      item.SubCategoryName.toLowerCase().includes(searchTerm.toLowerCase())
+      item.StoneID.toString().includes(searchTerm) ||
+      item.StoneName.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const currentEntries = filteredData.slice((currentPage - 1) * entriesPerPage, currentPage * entriesPerPage);
@@ -143,7 +143,7 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL;
       {showForm ? (
         <ItemsCrudOperations
           isEditMode={isEditMode}
-          itemDetails={selectedItem || { SubCategoryName: '', SortOrder: '' }}
+          itemDetails={selectedItem || { StoneName: '', SortOrder: '' }}
           onClose={handleCloseForm}
           onRefresh={fetchData}
           onSuccess={handleSuccess}
@@ -155,7 +155,7 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL;
             className="d-flex justify-content-between align-items-center"
             style={{ backgroundColor: '#040430', color: 'white' }}
           >
-            <strong>List Sub Category</strong>
+            <strong>List Stone</strong>
             <div className="d-flex align-items-center">
               <label htmlFor="search-bar" style={{ marginRight: '10px', color: 'white' }}>
                 Search:
@@ -181,7 +181,7 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL;
                 style={{ fontSize: '0.80rem', height: '32px', display: 'flex', alignItems: 'center', padding: '0 10px' }}
               >
                 <FaPlus style={{ marginRight: '5px' }} />
-                Add Sub Category
+                Add Stone
               </CButton>
             </div>
           </CCardHeader>
@@ -190,16 +190,16 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL;
               <CTableHead style={{ backgroundColor: '#DEDDF7' }}>
                 <CTableRow>
                   <CTableHeaderCell style={{ textAlign: 'start' }}>Sr No</CTableHeaderCell>
-                  <CTableHeaderCell style={{ textAlign: 'start' }}>Sub Category Name</CTableHeaderCell>
+                  <CTableHeaderCell style={{ textAlign: 'start' }}>Sub Stone</CTableHeaderCell>
                   <CTableHeaderCell style={{ textAlign: 'start' }}>Sort Order</CTableHeaderCell>
                   <CTableHeaderCell style={{ textAlign: 'start' }}>Actions</CTableHeaderCell>
                 </CTableRow>
               </CTableHead>
               <CTableBody>
                 {currentEntries.map((item,idx) => (
-                  <CTableRow key={item.SubCategoryID}>
+                  <CTableRow key={item.StoneID}>
                     <CTableDataCell style={{ textAlign: 'start' }}>{currentPage - 1 <= 0 ? idx + 1 : (entriesPerPage * (currentPage - 1)) + (idx + 1)}</CTableDataCell>
-                    <CTableDataCell style={{ textAlign: 'start' }}>{item.SubCategoryName}</CTableDataCell>
+                    <CTableDataCell style={{ textAlign: 'start' }}>{item.StoneName}</CTableDataCell>
                     <CTableDataCell style={{ textAlign: 'start' }}>{item.SortOrder}</CTableDataCell>
                     <CTableDataCell style={{ textAlign: 'start' }}>
                       <CButton color="black" onClick={() => handleOpenForm(item)}>

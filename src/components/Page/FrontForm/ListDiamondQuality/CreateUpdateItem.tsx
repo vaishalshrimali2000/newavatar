@@ -16,30 +16,30 @@ const ItemsCrudOperations = ({ isEditMode, itemDetails, onClose, onRefresh, rowD
   };
 
   const validateForm = () => {
-    return formDetails.SubCategoryName && formDetails.SortOrder;
+    return formDetails.DiamondQuality && formDetails.SortOrder;
   };
 
   const handleSubmit = async () => {
     if (validateForm()) {
       const url = isEditMode
-        ? `${apiUrl}/editSubCategory`
-        : `${apiUrl}/addSubCategory`;
+        ? `${apiUrl}/editdiamondquality`
+        : `${apiUrl}/adddiamondquality`;
 
       try {
         let isDuplicate = 0;
         if (isEditMode) {
           const tmpEditData = rowData.filter((itm) => {
-            return itm.SubCategoryID !== itemDetails.SubCategoryID && itm.SubCategoryName === formDetails.SubCategoryName
+            return itm.DiamondQualityID !== itemDetails.DiamondQualityID && itm.DiamondQuality === formDetails.DiamondQuality
           });
           isDuplicate = tmpEditData?.length > 0 ? 1 : 0;
         } else {
           const tmpData = rowData.filter((itm) => {
-            return itm.SubCategoryName === formDetails.SubCategoryName
+            return itm.DiamondQuality === formDetails.DiamondQuality
           });
           isDuplicate = tmpData?.length > 0 ? 1 : 0;
         }
         if (isDuplicate === 1) {
-          toast.error("Sub category name already exists!");
+          toast.error("Diamond quality name already exists!");
         } else {
           const response = await axios.post(url, formDetails, {
             headers: { 'Content-Type': 'application/json' },
@@ -47,7 +47,7 @@ const ItemsCrudOperations = ({ isEditMode, itemDetails, onClose, onRefresh, rowD
 
           if (response.status >= 200 && response.status < 300) {
             // setShowSuccessModal(true);
-            toast.success(isEditMode ? 'Sub category successfully updated!' : 'Sub category successfully created!');
+            toast.success(isEditMode ? 'Diamond quality successfully updated!' : 'Diamond quality successfully created!');
             setTimeout(() => {
               onRefresh();
               onClose();
@@ -72,9 +72,9 @@ const ItemsCrudOperations = ({ isEditMode, itemDetails, onClose, onRefresh, rowD
   useEffect(() => {
     const fetchZones = async () => {
       try {
-        console.log("SubCategoryID : " + JSON.stringify(itemDetails));
+        console.log("Diamond Quality ID: " + JSON.stringify(itemDetails));
         
-        var url = `${apiUrl}/searchSubCategory/` + itemDetails.SubCategoryID;
+        var url = `${apiUrl}/searchdiamondquality/` + itemDetails.DiamondQualityID;
         const response = await axios.get(url); // Replace with your API endpoint
       
         setFormDetails(response.data[0]); // Assuming response.data is an array of zones
@@ -93,19 +93,19 @@ const ItemsCrudOperations = ({ isEditMode, itemDetails, onClose, onRefresh, rowD
   return (
     <CCard>
       <CCardHeader style={{ backgroundColor: '#040430', color: 'white' }}>
-        <h5>{isEditMode ? 'Edit SubCategory' : 'Add SubCategory'}</h5>
+        <h5>{isEditMode ? 'Edit DiamondQuality' : 'Add DiamondQuality'}</h5>
       </CCardHeader>
       <CCardBody>
         <CRow className="mb-3">
           <CCol md={6}>
-            <CFormLabel htmlFor="SubCategoryName">Sub Category Name:</CFormLabel>
+            <CFormLabel htmlFor="DiamondQuality">Diamond Quality Name:</CFormLabel>
             <CFormInput
               type="text"
-              id="SubCategoryName"
-              name="SubCategoryName"
-              value={formDetails.SubCategoryName || ''}
+              id="DiamondQuality"
+              name="DiamondQuality"
+              value={formDetails.DiamondQuality || ''}
               onChange={handleChange}
-              placeholder="Enter Sub category name"
+              placeholder="Enter diamond quality name"
             />
           </CCol>
           <CCol md={6}>

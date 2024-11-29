@@ -49,7 +49,7 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const fetchData = () => {
     setLoading(true);
     axios
-      .get(`${apiUrl}/getstarcolor`)
+      .get(`${apiUrl}/getdesignstones`)
       .then((response) => {
         if (response.headers['content-type'].includes('application/json')) {
           setData(response.data);
@@ -79,8 +79,8 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
   const handleDelete = () => {
     axios
-      .post(`${apiUrl}/disablestarcolor`, {
-        StarColorID: itemToDelete.StarColorID,
+      .post(`${apiUrl}/disabledesignstone`, {
+        DesignStoneID: itemToDelete.DesignStoneID,
         UpdatedBy: itemToDelete.UpdatedBy,
       })
       .then(() => {
@@ -92,7 +92,7 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL;
         // setTimeout(() => {
         //   setShowDeleteSuccessModal(false);
         // }, 1000);
-        toast.success("Star Color deleted successfully!");
+        toast.success("Design Stone deleted successfully!");
 
       })
       .catch((error) => {
@@ -129,8 +129,8 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   // Filter data based on search term
   const filteredData = data.filter(
     (item) =>
-      item.StarColorID.toString().includes(searchTerm) ||
-      item.StarName.toLowerCase().includes(searchTerm.toLowerCase())
+      item.DesignStoneID.toString().includes(searchTerm) ||
+      item.DesignStone.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const currentEntries = filteredData.slice((currentPage - 1) * entriesPerPage, currentPage * entriesPerPage);
@@ -143,7 +143,7 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL;
       {showForm ? (
         <ItemsCrudOperations
           isEditMode={isEditMode}
-          itemDetails={selectedItem || { StarName: '', SortOrder: '' }}
+          itemDetails={selectedItem || { DesignName: '', SortOrder: '' }}
           onClose={handleCloseForm}
           onRefresh={fetchData}
           onSuccess={handleSuccess}
@@ -155,7 +155,7 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL;
             className="d-flex justify-content-between align-items-center"
             style={{ backgroundColor: '#040430', color: 'white' }}
           >
-            <strong>List StarName</strong>
+            <strong>List Design Name</strong>
             <div className="d-flex align-items-center">
               <label htmlFor="search-bar" style={{ marginRight: '10px', color: 'white' }}>
                 Search:
@@ -181,7 +181,7 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL;
                 style={{ fontSize: '0.80rem', height: '32px', display: 'flex', alignItems: 'center', padding: '0 10px' }}
               >
                 <FaPlus style={{ marginRight: '5px' }} />
-                Add Star <Canvas></Canvas>olor
+                <Canvas>Add Design Stone</Canvas>
               </CButton>
             </div>
           </CCardHeader>
@@ -190,16 +190,16 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL;
               <CTableHead style={{ backgroundColor: '#DEDDF7' }}>
                 <CTableRow>
                   <CTableHeaderCell style={{ textAlign: 'start' }}>Sr No</CTableHeaderCell>
-                  <CTableHeaderCell style={{ textAlign: 'start' }}>Star Color Name</CTableHeaderCell>
+                  <CTableHeaderCell style={{ textAlign: 'start' }}>Design Stone Name</CTableHeaderCell>
                   <CTableHeaderCell style={{ textAlign: 'start' }}>Sort Order</CTableHeaderCell>
                   <CTableHeaderCell style={{ textAlign: 'start' }}>Actions</CTableHeaderCell>
                 </CTableRow>
               </CTableHead>
               <CTableBody>
                 {currentEntries.map((item,idx) => (
-                  <CTableRow key={item.StarColorID}>
+                  <CTableRow key={item.DesignStoneID}>
                     <CTableDataCell style={{ textAlign: 'start' }}>{currentPage - 1 <= 0 ? idx + 1 : (entriesPerPage * (currentPage - 1)) + (idx + 1)}</CTableDataCell>
-                    <CTableDataCell style={{ textAlign: 'start' }}>{item.StarName}</CTableDataCell>
+                    <CTableDataCell style={{ textAlign: 'start' }}>{item.DesignName}</CTableDataCell>
                     <CTableDataCell style={{ textAlign: 'start' }}>{item.SortOrder}</CTableDataCell>
                     <CTableDataCell style={{ textAlign: 'start' }}>
                       <CButton color="black" onClick={() => handleOpenForm(item)}>

@@ -16,7 +16,7 @@ const ItemsCrudOperations = ({ isEditMode, itemDetails, onClose, onRefresh, rowD
   };
 
   const validateForm = () => {
-    return formDetails.CourierName && formDetails.SortOrder;
+    return formDetails.CourierName && formDetails.Remarks;
   };
 
   const handleSubmit = async () => {
@@ -43,6 +43,7 @@ const ItemsCrudOperations = ({ isEditMode, itemDetails, onClose, onRefresh, rowD
         if (isDuplicate === 1) {
           toast.error("Courier name already exists!");
         } else {
+          console.log("form payload : " + JSON.stringify(formDetails));
           const response = await axios.post(url, formDetails, {
             headers: { 'Content-Type': 'application/json' },
           });
@@ -111,14 +112,14 @@ const ItemsCrudOperations = ({ isEditMode, itemDetails, onClose, onRefresh, rowD
             />
           </CCol>
           <CCol md={6}>
-            <CFormLabel htmlFor="SortOrder">Sort Order:</CFormLabel>
+            <CFormLabel htmlFor="Remarks">Remarks:</CFormLabel>
             <CFormInput
-              type="number"
-              id="SortOrder"
-              name="SortOrder"
-              value={formDetails.SortOrder || ''}
+              type="text"
+              id="Remarks"
+              name="Remarks"
+              value={formDetails.Remarks || ''}
               onChange={handleChange}
-              placeholder="Enter sort order"
+              placeholder="Enter Remarks"
             />
           </CCol>
         </CRow>

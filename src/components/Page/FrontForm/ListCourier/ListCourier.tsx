@@ -143,7 +143,7 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL;
       {showForm ? (
         <ItemsCrudOperations
           isEditMode={isEditMode}
-          itemDetails={selectedItem || { CourierName: '', SortOrder: '' }}
+          itemDetails={selectedItem || { CourierName: '', Remarks: '' }}
           onClose={handleCloseForm}
           onRefresh={fetchData}
           onSuccess={handleSuccess}
@@ -191,7 +191,7 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL;
                 <CTableRow>
                   <CTableHeaderCell style={{ textAlign: 'start' }}>Sr No</CTableHeaderCell>
                   <CTableHeaderCell style={{ textAlign: 'start' }}>Courier Name</CTableHeaderCell>
-                  <CTableHeaderCell style={{ textAlign: 'start' }}>Sort Order</CTableHeaderCell>
+                  <CTableHeaderCell style={{ textAlign: 'start' }}>Remarks</CTableHeaderCell>
                   <CTableHeaderCell style={{ textAlign: 'start' }}>Actions</CTableHeaderCell>
                 </CTableRow>
               </CTableHead>
@@ -200,7 +200,7 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL;
                   <CTableRow key={item.CourierID}>
                     <CTableDataCell style={{ textAlign: 'start' }}>{currentPage - 1 <= 0 ? idx + 1 : (entriesPerPage * (currentPage - 1)) + (idx + 1)}</CTableDataCell>
                     <CTableDataCell style={{ textAlign: 'start' }}>{item.CourierName}</CTableDataCell>
-                    <CTableDataCell style={{ textAlign: 'start' }}>{item.SortOrder}</CTableDataCell>
+                    <CTableDataCell style={{ textAlign: 'start' }}>{item.Remarks}</CTableDataCell>
                     <CTableDataCell style={{ textAlign: 'start' }}>
                       <CButton color="black" onClick={() => handleOpenForm(item)}>
                         <FaEdit />

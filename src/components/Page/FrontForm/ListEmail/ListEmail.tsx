@@ -49,7 +49,7 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const fetchData = () => {
     setLoading(true);
     axios
-      .get(`${apiUrl}/getitemdays`)
+      .get(`${apiUrl}/getemail`)
       .then((response) => {
         if (response.headers['content-type'].includes('application/json')) {
           setData(response.data);
@@ -79,8 +79,8 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
   const handleDelete = () => {
     axios
-      .post(`${apiUrl}/disableitemday`, {
-        DaysID: itemToDelete.DaysID,
+      .post(`${apiUrl}/disableemail`, {
+        ID: itemToDelete.ID,
         UpdatedBy: itemToDelete.UpdatedBy,
       })
       .then(() => {
@@ -92,7 +92,7 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL;
         // setTimeout(() => {
         //   setShowDeleteSuccessModal(false);
         // }, 1000);
-        toast.success("Days deleted successfully!");
+        toast.success("Email deleted successfully!");
 
       })
       .catch((error) => {
@@ -129,8 +129,8 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   // Filter data based on search term
   const filteredData = data.filter(
     (item) =>
-      item.DaysID.toString().includes(searchTerm) ||
-      item.DaysName.toLowerCase().includes(searchTerm.toLowerCase())
+      item.ID.toString().includes(searchTerm) ||
+      item.Email.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const currentEntries = filteredData.slice((currentPage - 1) * entriesPerPage, currentPage * entriesPerPage);
@@ -143,7 +143,7 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL;
       {showForm ? (
         <ItemsCrudOperations
           isEditMode={isEditMode}
-          itemDetails={selectedItem || { DaysName: '', SortOrder: '' }}
+          itemDetails={selectedItem || { Email: '', SortOrder: '' }}
           onClose={handleCloseForm}
           onRefresh={fetchData}
           onSuccess={handleSuccess}
@@ -155,7 +155,7 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL;
             className="d-flex justify-content-between align-items-center"
             style={{ backgroundColor: '#040430', color: 'white' }}
           >
-            <strong>List Days</strong>
+            <strong>List Email</strong>
             <div className="d-flex align-items-center">
               <label htmlFor="search-bar" style={{ marginRight: '10px', color: 'white' }}>
                 Search:
@@ -181,7 +181,7 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL;
                 style={{ fontSize: '0.80rem', height: '32px', display: 'flex', alignItems: 'center', padding: '0 10px' }}
               >
                 <FaPlus style={{ marginRight: '5px' }} />
-                Add Days
+                Add Email
               </CButton>
             </div>
           </CCardHeader>
@@ -190,16 +190,16 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL;
               <CTableHead style={{ backgroundColor: '#DEDDF7' }}>
                 <CTableRow>
                   <CTableHeaderCell style={{ textAlign: 'start' }}>Sr No</CTableHeaderCell>
-                  <CTableHeaderCell style={{ textAlign: 'start' }}>Days Name</CTableHeaderCell>
+                  <CTableHeaderCell style={{ textAlign: 'start' }}>Email</CTableHeaderCell>
                   <CTableHeaderCell style={{ textAlign: 'start' }}>Sort Order</CTableHeaderCell>
                   <CTableHeaderCell style={{ textAlign: 'start' }}>Actions</CTableHeaderCell>
                 </CTableRow>
               </CTableHead>
               <CTableBody>
                 {currentEntries.map((item,idx) => (
-                  <CTableRow key={item.DaysID}>
+                  <CTableRow key={item.ID}>
                     <CTableDataCell style={{ textAlign: 'start' }}>{currentPage - 1 <= 0 ? idx + 1 : (entriesPerPage * (currentPage - 1)) + (idx + 1)}</CTableDataCell>
-                    <CTableDataCell style={{ textAlign: 'start' }}>{item.DaysName}</CTableDataCell>
+                    <CTableDataCell style={{ textAlign: 'start' }}>{item.Email}</CTableDataCell>
                     <CTableDataCell style={{ textAlign: 'start' }}>{item.SortOrder}</CTableDataCell>
                     <CTableDataCell style={{ textAlign: 'start' }}>
                       <CButton color="black" onClick={() => handleOpenForm(item)}>

@@ -16,30 +16,30 @@ const ItemsCrudOperations = ({ isEditMode, itemDetails, onClose, onRefresh, rowD
   };
 
   const validateForm = () => {
-    return formDetails.StoneQuality && formDetails.SortOrder;
+    return formDetails.StoneName && formDetails.SortOrder;
   };
 
   const handleSubmit = async () => {
     if (validateForm()) {
       const url = isEditMode
-        ? `${apiUrl}/editstonequality`
-        : `${apiUrl}/addstonequality`;
+        ? `${apiUrl}/editStone`
+        : `${apiUrl}/addStone`;
 
       try {
         let isDuplicate = 0;
         if (isEditMode) {
           const tmpEditData = rowData.filter((itm) => {
-            return itm.StoneQualityID !== itemDetails.StoneQualityID && itm.StoneQuality === formDetails.StoneQuality
+            return itm.StoneID !== itemDetails.StoneID && itm.StoneName === formDetails.StoneName
           });
           isDuplicate = tmpEditData?.length > 0 ? 1 : 0;
         } else {
           const tmpData = rowData.filter((itm) => {
-            return itm.StoneQuality === formDetails.StoneQuality
+            return itm.StoneName === formDetails.StoneName
           });
           isDuplicate = tmpData?.length > 0 ? 1 : 0;
         }
         if (isDuplicate === 1) {
-          toast.error("Stone quality name already exists!");
+          toast.error("Stone name already exists!");
         } else {
           const response = await axios.post(url, formDetails, {
             headers: { 'Content-Type': 'application/json' },
@@ -47,7 +47,7 @@ const ItemsCrudOperations = ({ isEditMode, itemDetails, onClose, onRefresh, rowD
 
           if (response.status >= 200 && response.status < 300) {
             // setShowSuccessModal(true);
-            toast.success(isEditMode ? 'Stone quality successfully updated!' : 'Stone quality successfully created!');
+            toast.success(isEditMode ? 'Stone successfully updated!' : 'Stone successfully created!');
             setTimeout(() => {
               onRefresh();
               onClose();
@@ -72,9 +72,9 @@ const ItemsCrudOperations = ({ isEditMode, itemDetails, onClose, onRefresh, rowD
   useEffect(() => {
     const fetchZones = async () => {
       try {
-        console.log("Stone Quality ID: " + JSON.stringify(itemDetails));
+        console.log("StoneID : " + JSON.stringify(itemDetails));
         
-        var url = `${apiUrl}/searchstonequality/` + itemDetails.StoneQualityID;
+        var url = `${apiUrl}/searchStone/` + itemDetails.StoneID;
         const response = await axios.get(url); // Replace with your API endpoint
       
         setFormDetails(response.data[0]); // Assuming response.data is an array of zones
@@ -93,19 +93,19 @@ const ItemsCrudOperations = ({ isEditMode, itemDetails, onClose, onRefresh, rowD
   return (
     <CCard>
       <CCardHeader style={{ backgroundColor: '#040430', color: 'white' }}>
-        <h5>{isEditMode ? 'Edit StoneQuality' : 'Add StoneQuality'}</h5>
+        <h5>{isEditMode ? 'Edit Stone' : 'Add Stone'}</h5>
       </CCardHeader>
       <CCardBody>
         <CRow className="mb-3">
           <CCol md={6}>
-            <CFormLabel htmlFor="StoneQuality">Stone Quality Name:</CFormLabel>
+            <CFormLabel htmlFor="StoneName">Sub Stone Name:</CFormLabel>
             <CFormInput
               type="text"
-              id="StoneQuality"
-              name="StoneQuality"
-              value={formDetails.StoneQuality || ''}
+              id="StoneName"
+              name="StoneName"
+              value={formDetails.StoneName || ''}
               onChange={handleChange}
-              placeholder="Enter stone quality name"
+              placeholder="Enter stone name"
             />
           </CCol>
           <CCol md={6}>

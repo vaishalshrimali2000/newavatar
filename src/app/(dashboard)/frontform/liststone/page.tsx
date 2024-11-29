@@ -1,5 +1,5 @@
 import { Card, CardBody, CardHeader } from 'react-bootstrap'
-import Team from '@/components/Page/FrontForm/ListStoneEquality/ListStoneEquality'
+import Team from '@/components/Page/FrontForm/ListStone/ListStone'
 import { getDictionary } from '@/locales/dictionary'
 
 export default async function Page() {

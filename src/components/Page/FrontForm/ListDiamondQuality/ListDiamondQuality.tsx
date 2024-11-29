@@ -49,7 +49,7 @@ const ItemsTable = () => {
   const fetchData = () => {
     setLoading(true);
     axios
-      .get(`${apiUrl}/getstonequality`)
+      .get(`${apiUrl}/getdiamondquality`)
       .then((response) => {
         if (response.headers['content-type'].includes('application/json')) {
           setData(response.data);
@@ -79,8 +79,8 @@ const ItemsTable = () => {
 
   const handleDelete = () => {
     axios
-      .post(`${apiUrl}/disablestonequality`, {
-        StoneQualityID: itemToDelete.StoneQualityID,
+      .post(`${apiUrl}/disablediamondquality`, {
+        DiamondQualityID: itemToDelete.DiamondQualityID,
         UpdatedBy: itemToDelete.UpdatedBy,
       })
       .then(() => {
@@ -92,7 +92,7 @@ const ItemsTable = () => {
         // setTimeout(() => {
         //   setShowDeleteSuccessModal(false);
         // }, 1000);
-        toast.success("Stone Quality deleted successfully!");
+        toast.success("Diamond Quality deleted successfully!");
 
       })
       .catch((error) => {
@@ -129,8 +129,8 @@ const ItemsTable = () => {
   // Filter data based on search term
   const filteredData = data.filter(
     (item) =>
-      item.StoneQualityID.toString().includes(searchTerm) ||
-      item.StoneQuality.toLowerCase().includes(searchTerm.toLowerCase())
+      item.DiamondQualityID.toString().includes(searchTerm) ||
+      item.DiamondQuality.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const currentEntries = filteredData.slice((currentPage - 1) * entriesPerPage, currentPage * entriesPerPage);
@@ -143,7 +143,7 @@ const ItemsTable = () => {
       {showForm ? (
         <ItemsCrudOperations
           isEditMode={isEditMode}
-          itemDetails={selectedItem || { StoneQuality: '', SortOrder: '' }}
+          itemDetails={selectedItem || { DiamondQuality: '', SortOrder: '' }}
           onClose={handleCloseForm}
           onRefresh={fetchData}
           onSuccess={handleSuccess}
@@ -155,7 +155,7 @@ const ItemsTable = () => {
             className="d-flex justify-content-between align-items-center"
             style={{ backgroundColor: '#040430', color: 'white' }}
           >
-            <strong>List Stone Quality</strong>
+            <strong>List Diamond Quality</strong>
             <div className="d-flex align-items-center">
               <label htmlFor="search-bar" style={{ marginRight: '10px', color: 'white' }}>
                 Search:
@@ -181,7 +181,7 @@ const ItemsTable = () => {
                 style={{ fontSize: '0.80rem', height: '32px', display: 'flex', alignItems: 'center', padding: '0 10px' }}
               >
                 <FaPlus style={{ marginRight: '5px' }} />
-                Add Stone Quality
+                Add Diamond Quality
               </CButton>
             </div>
           </CCardHeader>
@@ -190,16 +190,16 @@ const ItemsTable = () => {
               <CTableHead style={{ backgroundColor: '#DEDDF7' }}>
                 <CTableRow>
                   <CTableHeaderCell style={{ textAlign: 'start' }}>Sr No</CTableHeaderCell>
-                  <CTableHeaderCell style={{ textAlign: 'start' }}>Stone Quality Name</CTableHeaderCell>
+                  <CTableHeaderCell style={{ textAlign: 'start' }}>Diamond Quality Name</CTableHeaderCell>
                   <CTableHeaderCell style={{ textAlign: 'start' }}>Sort Order</CTableHeaderCell>
                   <CTableHeaderCell style={{ textAlign: 'start' }}>Actions</CTableHeaderCell>
                 </CTableRow>
               </CTableHead>
               <CTableBody>
                 {currentEntries.map((item, idx) => (
-                  <CTableRow key={item.StoneQualityID}>
+                  <CTableRow key={item.DiamondQualityID}>
                     <CTableDataCell style={{ textAlign: 'start' }}>{currentPage - 1 <= 0 ? idx + 1 : (entriesPerPage * (currentPage - 1)) + (idx + 1)}</CTableDataCell>
-                    <CTableDataCell style={{ textAlign: 'start' }}>{item.StoneQuality}</CTableDataCell>
+                    <CTableDataCell style={{ textAlign: 'start' }}>{item.DiamondQuality}</CTableDataCell>
                     <CTableDataCell style={{ textAlign: 'start' }}>{item.SortOrder}</CTableDataCell>
                     <CTableDataCell style={{ textAlign: 'start' }}>
                       <CButton color="black" onClick={() => handleOpenForm(item)}>

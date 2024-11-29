@@ -1,5 +1,5 @@
 import { Card, CardBody, CardHeader } from 'react-bootstrap'
-import Team from '@/components/Page/FrontForm/ListSubCategory/ListSubCategory'
+import Team from '@/components/Page/FrontForm/ListEmail/ListEmail'
 import { getDictionary } from '@/locales/dictionary'
 
 export default async function Page() {

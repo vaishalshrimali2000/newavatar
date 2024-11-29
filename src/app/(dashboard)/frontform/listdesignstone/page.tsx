@@ -1,5 +1,5 @@
 import { Card, CardBody, CardHeader } from 'react-bootstrap'
-import Team from '@/components/Page/FrontForm/ListColor/ListColor'
+import Team from '@/components/Page/FrontForm/ListDesignStone/ListDesignStone'
 import { getDictionary } from '@/locales/dictionary'
 
 export default async function Page() {
